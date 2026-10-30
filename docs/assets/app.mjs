@@ -44,7 +44,7 @@ export async function start(){
     patterns.forEach(p=>{p.setAttribute('width',12-s.density*2);p.setAttribute('height',12-s.density*2);});
     [...land.children].forEach(n=>n.setAttribute('fill','#c6c9bc'));
     const palette=s.palette==='bright'?['#ed04c8','#00cb69','#4932ed','#f78c00']:s.palette==='single'?Array(4).fill('#326b78'):['#246a7b','#ba633e','#83723e','#7a6284'];
-    const color=i=>{const c=d3.hsl(palette[i]);c.l=categoryLight(s,i);return c.formatHex();};
+    const color=i=>{const c=s.valueOnly?d3.lab(50,0,0):d3.lab(palette[i]);c.l=categoryLight(s,i)*100;return c.formatHex();};
     patterns.slice(0,4).forEach((p,i)=>{const gap=12-s.density*2;p.replaceChildren();p.setAttribute('patternTransform','rotate(0)');el('rect',{width:gap,height:gap,fill:color(i)},p);const ink=d3.hsl(color(i));ink.l=Math.max(.08,ink.l-.27);if(i===1)el('circle',{cx:gap/2,cy:gap/2,r:1.1,fill:ink.formatHex()},p);else el('path',{d:i===0?`M0,${gap}L${gap},0M${-gap/2},${gap/2}L${gap/2},${-gap/2}M${gap/2},${gap*1.5}L${gap*1.5},${gap/2}`:i===2?`M0,${gap/2}H${gap}`:`M0,${gap/2}H${gap}M${gap/2},0V${gap}`,stroke:ink.formatHex(),'stroke-width':.9,fill:'none'},p);});
     const symbolFill=i=>s.texture?`url(#${id}-p${i})`:color(i);
     const symbol=i=>d3.symbol().type(s.form==='circle'?d3.symbolCircle:s.form==='triangle'?d3.symbolTriangle:[d3.symbolCircle,d3.symbolSquare,d3.symbolTriangle,d3.symbolDiamond][i]).size(categorySize(s,i))();
@@ -64,7 +64,7 @@ export async function start(){
   }return{svg,update};
  }
  const left=build('map-left'),right=build('map-right');left.update(bad);
- let queued=false;function render(){queued=false;right.update(state);document.querySelectorAll('[data-key]').forEach(n=>{if(n.type==='checkbox')n.checked=state[n.dataset.key];else n.value=state[n.dataset.key];const out=document.getElementById(n.id+'-value');if(out)out.value=n.value;});if(kind==='bertin'){document.getElementById('density').disabled=!state.texture;document.getElementById('light').disabled=state.lightMode==='category';}document.getElementById('live-state').textContent='● Vorschau aktuell';}
+ let queued=false;function render(){queued=false;right.update(state);document.querySelectorAll('[data-key]').forEach(n=>{if(n.type==='checkbox')n.checked=state[n.dataset.key];else n.value=state[n.dataset.key];const out=document.getElementById(n.id+'-value');if(out)out.value=n.value;});if(kind==='bertin'){document.getElementById('density').disabled=!state.texture;document.getElementById('palette').disabled=state.valueOnly;}document.getElementById('live-state').textContent='● Vorschau aktuell';}
  document.querySelectorAll('[data-key]').forEach(n=>n.addEventListener('input',()=>{state[n.dataset.key]=n.type==='checkbox'?n.checked:n.type==='range'?+n.value:n.value;if(!queued){queued=true;requestAnimationFrame(render);}}));
  document.getElementById('reset').onclick=()=>{Object.assign(state,bad);render();};
  function download(blob,ext){const a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=`Mainz_${kind}.${ext}`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
