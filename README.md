@@ -1,25 +1,30 @@
 # Kartographie · Hochschule Mainz
 
 Interaktive Übungen für Digitale Kartographie, Prof. Dr.-Ing. Yu Feng.
-Freie Python-Bibliotheken, direkt in Google Colab. Keine bezahlten Karten-APIs erforderlich.
+Interaktive Webübungen mit offenen Bibliotheken. Ohne Anmeldung, Installation oder kostenpflichtige Karten-API.
 
 | Übung | Thema | Stand |
 |---|---|---|
-| [01](01_visual_variables_color/) | Kartendesigns beurteilen und verbessern · Mainz | Interaktives Notebook, ca. 45 Minuten |
+| [01](01_visual_variables_color/) | Kartendesigns beurteilen und verbessern · Mainz | Zwei interaktive Webseiten, ca. 45 Minuten |
 | [02](02_map_generalization/) | Map Generalization / Kartengeneralisierung | Ordner vorbereitet |
 | [03](03_map_projection/) | Map Projection / Kartenprojektionen | Ordner vorbereitet |
 | [04](04_3d_geovisualization/) | 3D-Geovisualisierung | Ordner vorbereitet |
 
-## Übung 01 starten
+## Übung 01 im Browser starten
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yfeng-hsm/Karto_HS_Mainz/blob/main/01_visual_variables_color/01_Visuelle_Variablen_und_Farbe.ipynb)
+- [Teil 1 · Bertins visuelle Variablen](https://yfeng-hsm.github.io/Karto_HS_Mainz/bertin.html)
+- [Teil 2 · Farben und Klassifikation](https://yfeng-hsm.github.io/Karto_HS_Mainz/farben.html)
 
-**Laufzeit → Alle ausführen**, dann mit Menüs und Schiebereglern gestalten. Version 3 hat **zwei getrennte Blöcke mit je einem Beispiel**. Links bleibt die problematische Ausgangskarte sichtbar, rechts wird die eigene Fassung bearbeitet. Einstellungen mit „Rechte Karte aktualisieren“ anwenden; SVG-/PNG-Export möglich. Die Deutschland-Karte rechts oben markiert Mainz. Umfangreiche Programmierung ist nicht erforderlich. Daten und Code sind im Notebook eingebettet; ein heruntergeladenes Notebook funktioniert auch nach Upload in Colab.
+Ca. 45 Minuten: oben den Auftrag lesen, links die problematische Karte diskutieren, rechts verbessern. Jede Einstellung aktualisiert die rechte Karte sofort. Die Ausgangskarte bleibt unverändert. SVG und PNG können exportiert werden. Beide Karten enthalten einen Deutschland-Locator mit Mainz.
 
-- **Aufgabe 1:** eine problematische Karte von Einrichtungen und Stadtflächen mit Bertins sechs Variablen überarbeiten.
-- **Aufgabe 2:** eine problematische Bevölkerungskarte durch Farben, Kontrast und Klassifikation verbessern.
+Alle Karten werden lokal im Browser aus mitgelieferten Daten gezeichnet. Es werden keine externen Karten-APIs benötigt. D3 7.9.0 ist inklusive MIT-Lizenz im Repository enthalten.
 
-Lesbarer Python-Code und Daten liegen zusätzlich neben dem Notebook. Lokal: `python -m pip install -r requirements.txt`. Öffnen Sie das Notebook in Jupyter mit Widget-Unterstützung.
+### GitHub Pages aktivieren
+
+Settings → Pages → Deploy from a branch → **main**, Ordner **/docs** → Save.
+Die Website-Dateien liegen in [docs](docs/). Lokal: `python -m http.server 8000 --directory docs`.
+
+Das frühere [Colab-Notebook](01_visual_variables_color/01_Visuelle_Variablen_und_Farbe.ipynb) bleibt als optionale Python-Version erhalten.
 
 ## Lizenzen und Quellen
 
