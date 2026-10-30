@@ -19,9 +19,9 @@ export async function start(){
  const response=await fetch('data/mainz.json');if(!response.ok)throw Error('Kartendaten konnten nicht geladen werden.');const data=await response.json();
  const bad=kind==='bertin'?BERTIN_BAD:COLOR_BAD,state={...bad},values=data.population.map(d=>d.value);
  function build(id){
-  const svg=document.getElementById(id),defs=el('defs',{},svg);el('rect',{width:600,height:680,fill:'#fffdf7'},svg);
-  el('rect',{x:16,y:12,width:5,height:22,fill:'#efc54a'},svg);txt(svg,30,23,'MAINZ  /  KARTOGRAPHISCHES LABOR',10,{'font-weight':'bold','letter-spacing':1});
-  txt(svg,16,46,kind==='bertin'?'Einrichtungen im Stadtraum':'Wie viele Menschen wohnen hier?',22,{'font-family':'Georgia, serif','font-weight':'bold'});
+  const svg=document.getElementById(id),defs=el('defs',{},svg);el('rect',{width:600,height:680,fill:'#ffffff'},svg);
+txt(svg,16,23,'MAINZ  /  KARTOGRAPHISCHES LABOR',10,{'font-weight':'bold','letter-spacing':1});
+  txt(svg,16,46,kind==='bertin'?'Einrichtungen im Stadtraum':'Wie viele Menschen wohnen hier?',22,{'font-family':'Arial, sans-serif','font-weight':'bold'});
   const subtitle=txt(svg,16,64,kind==='bertin'?'Vier Einrichtungstypen · Innenstadt und Umgebung':'Bevölkerung je 100 × 100 m · Zensus 2022',11);
   const view=data.views[kind==='bertin'?'bertin':'color'];const projection=d3.geoIdentity().reflectY(true).fitExtent([[16,77],[584,574]],{type:'LineString',coordinates:[[view[0],view[2]],[view[1],view[3]]]});const path=d3.geoPath(projection);
   const clip=el('clipPath',{id:id+'-clip'},defs);el('rect',{x:16,y:77,width:568,height:497},clip);
@@ -33,8 +33,8 @@ export async function start(){
   const marks=el('g',{},g),labelGroup=el('g',{},g);let nodes=[];
   if(kind==='bertin')nodes=data.pois.map(p=>{const n=el('path',{},marks);el('title',{},n).textContent=p.name+' · '+types[p.category];return n;});
   else nodes=data.population.map(p=>{const n=el('path',{d:path(p.geometry),'fill-rule':'evenodd'},marks);el('title',{},n).textContent=p.value+' Einwohner · '+p.id;return n;});
-  data.labels.forEach(l=>{const[x,y]=projection([l.x,l.y]);txt(labelGroup,x,y,l.name,12,{'letter-spacing':1,'paint-order':'stroke',stroke:'#fffdf7','stroke-width':2,'text-anchor':'middle'});});
-  el('rect',{x:495,y:81,width:85,height:109,fill:'#fffdf7','fill-opacity':.94,rx:4},svg);const gp=d3.geoIdentity().reflectY(true).fitExtent([[508,103],[571,174]],data.germany);el('path',{d:d3.geoPath(gp)(data.germany),fill:'#e3e3d9',stroke:'#a6b2a8','stroke-width':.7},svg);const[dx,dy]=gp(data.mainz);el('circle',{cx:dx,cy:dy,r:3,fill:'#c75538',stroke:'white'},svg);txt(svg,dx+4,dy+3,'Mainz',11);txt(svg,502,94,'DEUTSCHLAND',10,{'font-weight':'bold','letter-spacing':1});
+  data.labels.forEach(l=>{const[x,y]=projection([l.x,l.y]);txt(labelGroup,x,y,l.name,12,{'letter-spacing':1,'paint-order':'stroke',stroke:'#ffffff','stroke-width':2,'text-anchor':'middle'});});
+  el('rect',{x:495,y:81,width:85,height:109,fill:'#ffffff','fill-opacity':.94,rx:4},svg);const gp=d3.geoIdentity().reflectY(true).fitExtent([[508,103],[571,174]],data.germany);el('path',{d:d3.geoPath(gp)(data.germany),fill:'#e3e3d9',stroke:'#a6b2a8','stroke-width':.7},svg);const[dx,dy]=gp(data.mainz);el('circle',{cx:dx,cy:dy,r:3,fill:'#c75538',stroke:'white'},svg);txt(svg,dx+4,dy+3,'Mainz',11);txt(svg,502,94,'DEUTSCHLAND',10,{'font-weight':'bold','letter-spacing':1});
   const legend=el('g',{},svg),stats=el('g',{},svg);
   const distance=kind==='bertin'?1000:2000,scale=projection.scale()*distance;el('path',{d:`M16,623v5h${scale}v-5`,stroke:'#293c38',fill:'none'},svg);txt(svg,16,639,(distance/1000)+' km',10);txt(svg,565,637,'N ↑',11);
   txt(svg,16,654,'© OpenStreetMap contributors · Kartenhintergrund vereinfacht',12);txt(svg,16,666,kind==='bertin'?'OSM: 24.10.2026 · Typen, keine Kapazitäten oder Qualitätswerte':'Zensus: 15.05.2022 · Fehlende/unterdrückte Werte sind nicht null',12);
@@ -49,7 +49,7 @@ export async function start(){
     patterns.slice(0,4).forEach((p,i)=>{const gap=12-s.density*2;p.replaceChildren();p.setAttribute('patternTransform','rotate(0)');el('rect',{width:gap,height:gap,fill:color(i)},p);const ink=d3.hsl(color(i));ink.l=Math.max(.08,ink.l-.27);if(i===1)el('circle',{cx:gap/2,cy:gap/2,r:1.1,fill:ink.formatHex()},p);else el('path',{d:i===0?`M0,${gap}L${gap},0M${-gap/2},${gap/2}L${gap/2},${-gap/2}M${gap/2},${gap*1.5}L${gap*1.5},${gap/2}`:i===2?`M0,${gap/2}H${gap}`:`M0,${gap/2}H${gap}M${gap/2},0V${gap}`,stroke:ink.formatHex(),'stroke-width':.9,fill:'none'},p);});
     const symbolFill=i=>s.texture?`url(#${id}-p${i})`:color(i);
     const symbol=i=>d3.symbol().type(s.form==='circle'?d3.symbolCircle:s.form==='triangle'?d3.symbolTriangle:[d3.symbolCircle,d3.symbolSquare,d3.symbolTriangle,d3.symbolDiamond][i]).size(categorySize(s,i))();
-    nodes.forEach((n,i)=>{const p=data.pois[i],[x,y]=projection([p.x,p.y]);n.setAttribute('d',symbol(p.category));n.setAttribute('transform',`translate(${x},${y}) rotate(${s.angle+(s.directions?p.category*35:0)})`);n.setAttribute('fill',symbolFill(p.category));n.setAttribute('stroke','#fffdf7');n.setAttribute('stroke-width',.6);});
+    nodes.forEach((n,i)=>{const p=data.pois[i],[x,y]=projection([p.x,p.y]);n.setAttribute('d',symbol(p.category));n.setAttribute('transform',`translate(${x},${y}) rotate(${s.angle+(s.directions?p.category*35:0)})`);n.setAttribute('fill',symbolFill(p.category));n.setAttribute('stroke','#ffffff');n.setAttribute('stroke-width',.6);});
     types.forEach((name,i)=>{el('path',{d:symbol(i),transform:`translate(${26+i*143},597) rotate(${s.angle+(s.directions?i*35:0)})`,fill:symbolFill(i)},legend);txt(legend,39+i*143,600,name,9);});
 
    }else{
@@ -57,7 +57,7 @@ export async function start(){
     const ramps={warm:d3.interpolateYlOrRd,blue:d3.interpolateBlues,viridis:d3.interpolateViridis,diverging:d3.interpolateRdBu};
     let colors=Array.from({length:k},(_,i)=>s.palette==='category'?d3.schemeTableau10[i]:ramps[s.palette](.52+((.12+.82*i/Math.max(1,k-1))-.52)*s.contrast));if(s.reverse)colors.reverse();
     if(s.gray)colors=colors.map(v=>{const c=d3.rgb(v),l=Math.round(.2126*c.r+.7152*c.g+.0722*c.b);return `rgb(${l},${l},${l})`;});
-    nodes.forEach((n,i)=>{n.setAttribute('fill',colors[c.ids[i]]);n.setAttribute('stroke','#fffdf7');n.setAttribute('stroke-width',s.border);});
+    nodes.forEach((n,i)=>{n.setAttribute('fill',colors[c.ids[i]]);n.setAttribute('stroke','#ffffff');n.setAttribute('stroke-width',s.border);});
     c.bins.forEach((b,i)=>{const x=18+i*(565/k);el('rect',{x,y:587,width:12,height:12,fill:colors[i]},legend);const low=i?Math.floor(c.bins[i-1])+1:Math.min(...values);txt(legend,x+16,597,`${low}–${Math.floor(b)}`,13);txt(legend,x+16,614,`${c.counts[i]} Zellen`,10,{fill:'#7b817b'});});
     subtitle.textContent=`100 × 100 m · ${s.method==='equal'?'Gleiche Intervalle':s.method==='jenks'?'Jenks / natürliche Grenzen':'Quantile'} · ${k} Klassen`;
 

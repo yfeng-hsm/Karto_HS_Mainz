@@ -1,4 +1,4 @@
-# DWD-Winddaten für die Fälle 2–4
+# DWD-Winddaten für den Wind-Fall
 
 Echte stündliche Stationswerte vom **28.10.2026, 12:00 UTC (13:00 MEZ)**. Abgerufen am 30.10.2026. Keine Live-Daten und keine Vorhersage.
 
@@ -12,7 +12,7 @@ Auswahl: die 26 nächstgelegenen, bis mindestens 28.10.2026 aktiven Windstatione
 
 Originalfelder: F = Windgeschwindigkeit in m/s; D = meteorologische Windherkunft, Grad im Uhrzeigersinn ab Nord; QN_3 = Qualitätskennzahl. D=360 bezeichnet Nord. -999 wird nicht gezeichnet; Windstille erhält keinen Richtungspfeil. Der Kartenpfeil zeigt die Zielrichtung der Luft: **(D + 180) mod 360**. Beispiel: Wind aus 330° → Luft strömt nach 150°.
 
-Fall 2 verwendet abgeleitete ordinale Stufen: I <2, II 2–<4, III 4–<6, IV ≥6 m/s. Dies ist eine **didaktische Einteilung, keine DWD-Warnstufe und keine Beaufort-Skala**. Fall 3 verwendet die ursprünglichen Zahlenwerte. Die Fläche proportionaler Symbole ist proportional zu F. Fall 4 verwendet die Richtungsinformation; optional kann F zusätzlich die Fläche eines Pfeils steuern.
+Die Winddaten werden ausschließlich im Wind-Fall eingesetzt. Die Richtung bestimmt die Drehung eines Pfeils. Optional kann die Windgeschwindigkeit dessen Fläche steuern. Andere Fälle verwenden separate Zugangs- bzw. Bevölkerungsdaten.
 
 Die Daten sind für den Unterricht auf diesen Zeitpunkt eingefroren. `dwd_wind_snapshot.csv` enthält die verwendeten Zahlen; `wind.json` enthält zusätzlich Kartengeometrien und Quellenlinks. `tools/build_wind_data.py` reproduziert den Snapshot, solange die Stunde noch im rollierenden recent-Archiv vorhanden ist. Benötigt: `pyshp`, `shapely`.
 

@@ -1,0 +1,21 @@
+id,name,full_name,population,lon,lat,reference_date
+064120000000,Frankfurt am Main,"Frankfurt am Main, Stadt",756021,8.682433,50.11088,2024-12-31
+082220000000,Mannheim,"Mannheim, Universitätsstadt",318035,8.466275,49.48778,2024-12-31
+064140000000,Wiesbaden,"Wiesbaden, Landeshauptstadt",288850,8.239138,50.081698,2024-12-31
+073150000000,Mainz,"Mainz, Stadt",224684,8.271855,50.001959,2024-12-31
+073140000000,Ludwigshafen am Rhein,"Ludwigshafen am Rhein, Stadt",177222,8.447899,49.483235,2024-12-31
+064110000000,Darmstadt,"Darmstadt, Wissenschaftsstadt",167029,8.653838,49.872238,2024-12-31
+082210000000,Heidelberg,"Heidelberg, Stadt",155756,8.705543,49.410524,2024-12-31
+064130000000,Offenbach am Main,"Offenbach am Main, Stadt",132746,8.764442,50.105567,2024-12-31
+071110000000,Koblenz,"Koblenz, Stadt",113378,7.597956,50.359516,2024-12-31
+072110000000,Trier,"Trier, Stadt",104342,6.638021,49.757603,2024-12-31
+073120000000,Kaiserslautern,"Kaiserslautern, Stadt",100426,7.768864,49.445456,2024-12-31
+064150000000,Hanau,"Hanau, Brüder-Grimm-Stadt",97956,8.915189,50.135573,2024-12-31
+073190000000,Worms,"Worms, Stadt",86753,8.361704,49.629828,2024-12-31
+096610000000,Aschaffenburg,Aschaffenburg,73091,9.147832,49.973506,2024-12-31
+064330012012,Rüsselsheim am Main,"Rüsselsheim am Main, Stadt",65627,8.411404,49.994936,2024-12-31
+071330006006,Bad Kreuznach,"Bad Kreuznach, Stadt",54168,7.861839,49.844515,2024-12-31
+073160000000,Neustadt an der Weinstraße,"Neustadt an der Weinstraße, Stadt",52945,8.140755,49.351983,2024-12-31
+073180000000,Speyer,"Speyer, Stadt",49564,8.436572,49.316172,2024-12-31
+073390030030,Ingelheim am Rhein,"Ingelheim am Rhein, Stadt",35016,8.056342,49.974439,2024-12-31
+073390005005,Bingen am Rhein,"Bingen am Rhein, Stadt",25384,7.895132,49.96663,2024-12-31

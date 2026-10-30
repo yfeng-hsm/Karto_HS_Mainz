@@ -12,17 +12,17 @@ Interaktive Webübungen mit offenen Bibliotheken. Ohne Anmeldung, Installation o
 
 ## Übung 01: fünf Fälle im Browser
 
-| Fall | Datentyp / Fokus | Datengrundlage |
+| Fall | Thema | Datengrundlage |
 |---|---|---|
-| [1 · Nominal](https://yfeng-hsm.github.io/Karto_HS_Mainz/docs/bertin.html) | Einrichtungstypen ohne Rangfolge | Mainzer OSM-Einrichtungen |
-| [2 · Ordinal](https://yfeng-hsm.github.io/Karto_HS_Mainz/docs/ordinal.html) | Reihenfolge von Stufen | Didaktische Windstufen aus DWD-Werten |
-| [3 · Quantitativ](https://yfeng-hsm.github.io/Karto_HS_Mainz/docs/quantitativ.html) | Zahlen und Mengenvergleiche | DWD-Windgeschwindigkeit (m/s) |
-| [4 · Richtung](https://yfeng-hsm.github.io/Karto_HS_Mainz/docs/richtung.html) | Orientierung und Richtungssinn | DWD-Windrichtung |
-| [5 · Klassifikation und Farbe](https://yfeng-hsm.github.io/Karto_HS_Mainz/docs/farben.html) | Jenks, Quantile, Intervalle, Farbwahl | Mainzer Zensus-Bevölkerung 100 m |
+| [1 · Einrichtungen](https://yfeng-hsm.github.io/Karto_HS_Mainz/docs/bertin.html) | Einrichtungstypen | Mainzer OSM-Einrichtungen |
+| [2 · Rollstuhlzugang](https://yfeng-hsm.github.io/Karto_HS_Mainz/docs/ordinal.html) | Zugangsangaben | 129 benannte Mainzer Orte mit OSM-wheelchair-Tags |
+| [3 · Stadtbevölkerung](https://yfeng-hsm.github.io/Karto_HS_Mainz/docs/quantitativ.html) | Städte vergleichen | 20 Städte, amtliche Einwohnerzahlen am 31.12.2024 |
+| [4 · Wind](https://yfeng-hsm.github.io/Karto_HS_Mainz/docs/richtung.html) | Strömungsrichtung | DWD-Windrichtung |
+| [5 · Bevölkerungsraster](https://yfeng-hsm.github.io/Karto_HS_Mainz/docs/farben.html) | Klassifikation und Farbe | Mainzer Zensus-Bevölkerung 100 m |
 
-Links bleibt die problematische Ausgangskarte unverändert. Rechts wird sie überarbeitet; die Bedienelemente stehen einspaltig ganz rechts. Fälle 1–3: zuerst eine von sechs Hauptvariablen wählen, dann deren Parameter einstellen. Nur passende Kombinationen sind optional verfügbar. Klassifikation und Farbpalettenvergleich sind auf Fall 5 konzentriert. SVG-/PNG-Export, keine Anmeldung erforderlich.
+Links bleibt die Ausgangskarte unverändert. Rechts wird sie überarbeitet; die Bedienelemente stehen einspaltig ganz rechts. Zuerst die Informationsart selbst bestimmen, dann eine Hauptvariable und ihre Parameter wählen. Das Interface verrät keine Datenart und bewertet die Auswahl nicht automatisch. Die Orientierung wird mit einem asymmetrischen Pfeil dargestellt. Geeignete zusätzliche Kodierungen sind optional verfügbar. Der Vergleich von Klassifikationen und Farbpaletten steht im Raster-Fall im Mittelpunkt.
 
-Die DWD-Daten stammen aus derselben Stunde: **28.10.2026, 12:00 UTC**. Es werden keine Messwerte erfunden und keine flächigen Windfelder interpoliert. Siehe [DWD-Quellen, Konventionen und Lizenz](docs/data/README_DWD.md).
+[Quellen: Stadtbevölkerung und Rollstuhlzugang](docs/data/README_CITY_ACCESS.md). DWD wird ausschließlich im Wind-Fall verwendet: **28.10.2026, 12:00 UTC**; [Quellen und Konventionen](docs/data/README_DWD.md). Es werden keine Windfelder zwischen den Stationen interpoliert.
 
 [Übersicht öffnen](https://yfeng-hsm.github.io/Karto_HS_Mainz/docs/index.html). Lokal: `python -m http.server 8000 --directory docs`.
 
