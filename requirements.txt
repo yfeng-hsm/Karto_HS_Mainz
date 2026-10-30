@@ -1,0 +1,4 @@
+geopandas>=1,<2
+matplotlib>=3.8,<4
+ipywidgets>=8,<9
+mapclassify>=2.8,<3

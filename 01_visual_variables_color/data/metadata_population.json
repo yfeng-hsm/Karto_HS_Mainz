@@ -1,0 +1,25 @@
+{
+  "source_url": "https://www.destatis.de/static/DE/zensus/gitterdaten/Zensus2022_Bevoelkerungszahl.zip",
+  "source_member": "Zensus2022_Bevoelkerungszahl_100m-Gitter.csv",
+  "source_zip_sha256": "1a8428d31eab264c8717bfdcbf40fbd66c217edb2e2a98d0e67741bd8a1a941a",
+  "reference_date": "2022-05-15",
+  "retrieved_on": "2026-10-30",
+  "cell_count": 2982,
+  "min_population": 3,
+  "max_population": 946,
+  "sum_population_extract_not_official_city_total": 220384,
+  "selection": "Published cells with EPSG:3035 cell centre inside the Mainz municipal boundary (AGS 07315000); full cells retained, not clipped. Boundary reference 2025-12-31, accessed through Esri Germany BKG-derived Gemeindegrenzen_2026 service.",
+  "boundary_service": "https://services2.arcgis.com/jUpNdisbWqRpMo35/ArcGIS/rest/services/Gemeindegrenzen_2026/FeatureServer/1",
+  "source_crs": "EPSG:3035",
+  "output_crs": "EPSG:4326",
+  "license": "dl-de/by-2-0",
+  "attribution": "© Statistische Ämter des Bundes und der Länder, 2024 · Zensus 2022 · dl-de/by-2-0 · Ausschnitt und Formatkonvertierung",
+  "fields": {
+    "grid_id": "Original INSPIRE ID",
+    "population": "Published inhabitants per full 100 m cell; CKM perturbed",
+    "longitude": "Centre longitude, WGS84",
+    "latitude": "Centre latitude, WGS84",
+    "population_per_km2": "population * 100; each full cell is 0.01 km²",
+    "reference_date": "Census reference date"
+  }
+}

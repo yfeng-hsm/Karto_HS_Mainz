@@ -1,0 +1,32 @@
+{
+  "osm_timestamp": "2026-10-24T00:00:00Z",
+  "retrieved_on": "2026-10-30",
+  "feature_count": 1780,
+  "counts": {
+    "landuse / Einzelhandel": 46,
+    "landuse / Freizeitfläche": 10,
+    "landuse / Gewerbe und Dienstleistungen": 127,
+    "landuse / Industrie": 47,
+    "landuse / Kleingärten": 123,
+    "landuse / Park": 138,
+    "landuse / Wald": 152,
+    "landuse / Wohnen": 369,
+    "poi / Bibliothek": 19,
+    "poi / Feuerwehr": 13,
+    "poi / Gemeinschaftszentrum": 46,
+    "poi / Kindertagesstätte": 106,
+    "poi / Krankenhaus": 4,
+    "poi / Polizei": 9,
+    "poi / Schule": 64,
+    "poi / Spielplatz": 401,
+    "poi / Sporthalle": 29,
+    "poi / Sportzentrum": 77
+  },
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "source": "https://download.bbbike.org/osm/bbbike/Mainz/Mainz.osm.pbf",
+  "selection_boundary": "Mainz AGS 07315000, BKG-derived Gemeindegrenzen_2026 via Esri Germany; reference 31.12.2025; used only for spatial selection",
+  "crs": "EPSG:4326",
+  "processing": "OSM area facilities converted to interior representative points. Land-use polygons clipped to selection boundary; overlapping land-use polygons retained. EPSG:25832 used for areas and distances. One feature per selected OSM object; not a deduplicated register of establishments.",
+  "skipped": {}
+}

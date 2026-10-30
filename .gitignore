@@ -1,0 +1,5 @@
+__pycache__/
+.ipynb_checkpoints/
+results/
+karto_lab_01/
+*.pyc
