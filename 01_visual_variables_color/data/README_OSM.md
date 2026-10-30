@@ -33,3 +33,6 @@ Bearbeitung: räumliche Auswahl, Kategorienbeschriftung, Flächenausschnitt, rep
 
 ## Zusätzlicher Kartenkontext (Version 2)
 `context.geojson`: Rhein/Main-Flächen und Hauptstraßen (primary, secondary, tertiary), aus demselben BBBike-PBF mit Stand 24.10.2026. Räumlich auf den Mainzer Umgebungsrahmen beschränkt. Ausschließlich zur Orientierung, keine vollständige Straßen- oder Gewässerkarte. © OpenStreetMap contributors · ODbL.
+
+## Deutschland-Locator (Version 3)
+`germany.geojson`: Deutschland aus Natural Earth 1:110 Mio., Public Domain. Quelle: https://github.com/nvkelso/natural-earth-vector/blob/master/geojson/ne_110m_admin_0_countries.geojson ; Lizenz: https://www.naturalearthdata.com/about/terms-of-use/ . Nur zur Lokalisierung von Mainz, keine genaue Grenzkarte.

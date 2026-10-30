@@ -14,7 +14,7 @@ Freie Python-Bibliotheken, direkt in Google Colab. Keine bezahlten Karten-APIs e
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yfeng-hsm/Karto_HS_Mainz/blob/main/01_visual_variables_color/01_Visuelle_Variablen_und_Farbe.ipynb)
 
-**Laufzeit → Alle ausführen**, dann mit Menüs und Schiebereglern gestalten. Version 2 führt durch **Diagnose → Redesign → Begründung**. Beide Aufgaben starten mit drei problematischen Entwürfen und unterstützen Vorher-/Nachher-Vergleich sowie SVG-/PNG-Export. Umfangreiche Programmierung ist nicht erforderlich. Daten und Code sind im Notebook eingebettet; ein heruntergeladenes Notebook funktioniert auch nach Upload in Colab.
+**Laufzeit → Alle ausführen**, dann mit Menüs und Schiebereglern gestalten. Version 3 hat **zwei getrennte Blöcke mit je einem Beispiel**. Links bleibt die problematische Ausgangskarte sichtbar, rechts wird die eigene Fassung bearbeitet. Einstellungen mit „Rechte Karte aktualisieren“ anwenden; SVG-/PNG-Export möglich. Die Deutschland-Karte rechts oben markiert Mainz. Umfangreiche Programmierung ist nicht erforderlich. Daten und Code sind im Notebook eingebettet; ein heruntergeladenes Notebook funktioniert auch nach Upload in Colab.
 
 - **Aufgabe 1:** eine problematische Karte von Einrichtungen und Stadtflächen mit Bertins sechs Variablen überarbeiten.
 - **Aufgabe 2:** eine problematische Bevölkerungskarte durch Farben, Kontrast und Klassifikation verbessern.
@@ -33,4 +33,4 @@ Code: [MIT](LICENSE). Daten separat: © OpenStreetMap contributors (ODbL) und ©
 
 ![Ausgangskarte und eine mögliche Überarbeitung](01_visual_variables_color/preview/Vorher_Nachher.png)
 
-Die rechte Karte ist ein Gestaltungsbeispiel, keine einzig gültige Lösung. Im Notebook starten Studierende mit den kritisierbaren Entwürfen.
+Die rechte Karte ist ein Gestaltungsbeispiel, keine einzig gültige Lösung. Im Notebook bleibt der linke Ausgangsentwurf unverändert; Studierende überarbeiten die rechte Karte.

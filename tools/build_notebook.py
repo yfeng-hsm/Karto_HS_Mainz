@@ -34,43 +34,41 @@ print("Bereit: 768 Einrichtungen, 1.012 Stadtflächen und 2.982 Bevölkerungszel
 nb={'nbformat':4,'nbformat_minor':5,'metadata':{'colab':{'name':'01_Visuelle_Variablen_und_Farbe.ipynb','toc_visible':True},'kernelspec':{'name':'python3','display_name':'Python 3'},'language_info':{'name':'python'}},'cells':[
 md('''# Übung 01 · Eine Karte besser machen
 **Digitale Kartographie · Hochschule Mainz · 45 Minuten**
-**Version 2: Diagnose → Redesign → Begründung**
+**Version 3: Links analysieren → rechts verbessern → begründen**
 
-Sie sind die Kartenredaktion eines Stadtmagazins. Für einen Beitrag über Mainz liegen mehrere Entwürfe vor. Die Daten sind dieselben, aber die Gestaltung erschwert jeweils das Lesen.
+Sie sind die Kartenredaktion eines Stadtmagazins. Sie bearbeiten zwei Beispiele in zwei getrennten Blöcken: eine Einrichtungen-Karte und eine Bevölkerungskarte. Links bleibt jeweils ein problematischer Entwurf sichtbar; rechts entwickeln Sie Ihre bessere Fassung mit denselben Daten.
 
-**Ihre Aufgabe:** Wählen Sie einen Entwurf, benennen Sie zwei konkrete Probleme und gestalten Sie eine besser lesbare Karte. Es gibt keine einzige Musterlösung. Entscheidend ist, ob die Gestaltung zur Leserfrage passt.
+**Ihre Aufgabe:** Benennen Sie je Beispiel zwei konkrete Probleme der linken Karte und gestalten Sie rechts eine besser lesbare Fassung. Es gibt keine einzige Musterlösung. Entscheidend ist, ob die Gestaltung zur Leserfrage passt.
 
-**Start (5 Min.):** **Laufzeit → Alle ausführen.** Danach arbeiten Sie nur mit Menüs, Reglern und Schaltflächen. Kein eigener Code nötig, normale CPU-Laufzeit genügt. Regler aktualisieren nach dem Loslassen. Beim Wechsel zu dieser Version bitte die Ausgaben erneut ausführen.
+**Start (5 Min.):** **Laufzeit → Alle ausführen.** Danach arbeiten Sie nur mit Menüs, Reglern und Schaltflächen. Kein eigener Code nötig, normale CPU-Laufzeit genügt. Stellen Sie die Regler ein und klicken Sie **„Rechte Karte aktualisieren“**. Nur die rechte Karte wird neu gezeichnet. Das vermeidet Verzögerungen beim Schieben. Beim Wechsel zu dieser Version bitte die Ausgaben erneut ausführen.
 '''),code(setup,True),
 md('''## 1 · Vier Einrichtungstypen verständlich zeigen (20 Min.)
 **Leserfrage:** Wo befinden sich Schulen, Kitas, Bibliotheken und Sportzentren? Lassen sich die vier Typen schnell unterscheiden?
 
-**A · Zuerst diskutieren:** Betrachten Sie die drei Karten unten. Welche Informationen fallen zuerst auf? Wo lassen sich Typen schwer unterscheiden? Erwecken Zeichen eine Rangfolge, die gar nicht in den Daten steht?
+**A · Zuerst diskutieren:** Betrachten Sie die feste Ausgangskarte links. Welche Informationen fallen zuerst auf? Wo lassen sich Typen schwer unterscheiden? Erwecken Zeichen eine Rangfolge, die gar nicht in den Daten steht?
 
-**B · Dann überarbeiten:** Wählen Sie im Menü **eine Ausgangskarte** und klicken Sie **„Fall laden“**. Verändern Sie gezielt ihre Gestaltung. Die sechs Gruppen entsprechen **Größe, Helligkeit, Farbton, Form, Orientierung und Textur**. Testen Sie jede Gruppe kurz; behalten Sie am Ende nur hilfreiche Unterschiede. Denken Sie auch an den Kontrast zwischen Thema und Hintergrund.
+**B · Dann überarbeiten:** Verändern Sie mit den Reglern die rechte Karte und wenden Sie die Änderungen mit **„Rechte Karte aktualisieren“** an. Die sechs Gruppen entsprechen **Größe, Helligkeit, Farbton, Form, Orientierung und Textur**. Testen Sie jede Gruppe kurz; behalten Sie am Ende nur hilfreiche Unterschiede. Denken Sie auch an den Kontrast zwischen Thema und Hintergrund.
 
-**C · Begründen:** Klicken Sie **„Vorher / Nachher“**. Nennen Sie drei Änderungen und erklären Sie jeweils den Nutzen für die Leserin oder den Leser.
+**C · Begründen:** Vergleichen Sie die beiden Karten direkt nebeneinander. Nennen Sie drei Änderungen und erklären Sie jeweils den Nutzen für die Leserin oder den Leser.
 
 **Datenlogik:** Alle vier Einrichtungstypen sind **nominale Kategorien**. Unterschiedliche Größen und Helligkeiten kodieren hier versuchsweise nur den Typ – weder Kapazität noch Qualität. Die Drehung ist keine reale Bewegungsrichtung. Die Texturen unterscheiden reale Stadtflächen; sie müssen nicht in der endgültigen Karte bleiben. An Kreisen ist eine Drehung unsichtbar – testen Sie Dreiecke.
-'''),code('''#@title Entwürfe ansehen und eine Karte überarbeiten
-lab.case_gallery("bertin")
+'''),code('''#@title Block 1 öffnen: links Ausgangskarte, rechts Ihre Überarbeitung
 bertin = lab.bertin_lab()
 ''',True),
 md('''## 2 · Bevölkerungszahlen klar vermitteln (18 Min.)
 **Leserfrage:** Wo konzentriert sich die Wohnbevölkerung in Mainz?
 
-**A · Zuerst diskutieren:** Vergleichen Sie die drei Entwürfe. Welche Karte vermittelt eine erkennbare Reihenfolge? Welche verschluckt Unterschiede? Betrachten Sie auch die Legende und die Werteverteilung.
+**A · Zuerst diskutieren:** Untersuchen Sie die linke Ausgangskarte. Welche Karte vermittelt eine erkennbare Reihenfolge? Welche verschluckt Unterschiede? Betrachten Sie auch die Legende und die Werteverteilung.
 
-**B · Dann überarbeiten:** Laden Sie eine Ausgangskarte und verbessern Sie sie:
+**B · Dann überarbeiten:** Verbessern Sie die rechte Karte. Wenden Sie Ihre Einstellungen jeweils mit **„Rechte Karte aktualisieren“** an:
 - Vergleichen Sie **Equal Interval, Quantile und Jenks (Fisher-Jenks)** bei **gleicher Palette und gleicher Klassenanzahl**.
 - Halten Sie anschließend die Klassifikation fest und ändern Sie **Palette und Farbkontrast**. Begründen Sie, ob sequenzielle, divergierende oder qualitative Farben passen.
 - Prüfen Sie **3–7 Klassen**, **Graustufen** und die Stärke der Randlinien. Wählen Sie eine lesbare Fassung für das Stadtmagazin.
 
-**C · Begründen:** Zeigen Sie **„Vorher / Nachher“** und erklären Sie Ihre Entscheidung für Klassifikation und Farben. Die angezeigte effektive Klassenanzahl kann bei gebundenen Werten von der Auswahl abweichen.
+**C · Begründen:** Vergleichen Sie links und rechts und erklären Sie Ihre Entscheidung für Klassifikation und Farben. Die angezeigte effektive Klassenanzahl kann bei gebundenen Werten von der Auswahl abweichen.
 
 **Datenlogik:** Zensus 2022, **15.05.2022**, Personen je vollständiger **100 × 100-m-Zelle**. Fehlende Zellen sind keine gesicherten Nullwerte. Die Zahlen unterliegen dem amtlichen Geheimhaltungsverfahren. Dies ist kein aktuelles Melderegister.
-'''),code('''#@title Farbentwürfe ansehen und eine Bevölkerungskarte überarbeiten
-lab.case_gallery("color")
+'''),code('''#@title Block 2 öffnen: links Ausgangskarte, rechts Ihre Überarbeitung
 farben = lab.color_lab()
 ''',True),
 md('''## Abschluss (2 Min.)
@@ -80,6 +78,7 @@ Melden Sie sich per Handzeichen. Zeigen Sie dem Dozenten in beiden Aufgaben **Au
 - **© OpenStreetMap contributors · ODbL**, OSM-Stand 24.10.2026, BBBike-Regionalextrakt. Einrichtungen, Stadtflächen, Rhein/Main und Hauptstraßen; räumlich ausgewählt und bearbeitet. Keine vollständige Bestandsliste, Zugang nicht geprüft. [Lizenz](https://www.openstreetmap.org/copyright).
 - **© Statistische Ämter des Bundes und der Länder, 2024 · Zensus 2022 · dl-de/by-2-0**. 2.982 veröffentlichte Zellen nach Mittelpunkt innerhalb Mainz; kein amtlicher Stadtsummenwert. [Originaldaten](https://www.destatis.de/static/DE/zensus/gitterdaten/Zensus2022_Bevoelkerungszahl.zip).
 - Mainz-Abgrenzung: BKG-abgeleitete Gemeindegrenzen, Stand 31.12.2025, über Esri Deutschland; Auswahl und Orientierung, kein historischer Grenzstand von 2022.
+- Deutschland-Übersicht: Natural Earth 1:110 Mio., Public Domain. Die Markierung zeigt die Lage von Mainz in Deutschland. [Quelle und Lizenz](https://www.naturalearthdata.com/about/terms-of-use/).
 - Freie Software: GeoPandas, Matplotlib, mapclassify und ipywidgets. Darstellungscode MIT; Daten behalten ihre eigenen Lizenzen. Keine bezahlte Karten-API.
 
 Daten und Code sind eingebettet. Nach einem Laufzeit-Neustart alle Zellen erneut ausführen. Exportierte Dateien vor dem Beenden herunterladen.
