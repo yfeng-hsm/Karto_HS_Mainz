@@ -61,3 +61,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
 .btn{border-color:#d2ded7;background:white;border-radius:7px}.btn.primary{background:var(--green)}
 .navlinks a[aria-current=page]{background:#e8f1e8;color:#246e59}
 @media(min-width:1000px) and (min-height:620px){.compact-lab .map-card{background:white}.compact-lab .brand{font-size:18px}.compact-lab .navlinks a{font-size:12px}}
+/* Same columns and panel positions; tasks float over the maps on hover/focus. */
+.task-hover{position:relative;z-index:30}.task-trigger{border:0;background:transparent;color:var(--green);font-weight:600;font-size:12px;padding:5px 10px;display:block;width:100%;text-align:left;cursor:help}
+.task-hover .task-popup{display:none;position:absolute;top:calc(100% + 5px);left:0;right:0;margin:0;background:white;border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px #203a3720;max-height:230px;overflow:auto;z-index:31}
+.task-hover.is-open .task-popup{display:grid}.task-hover .task{padding:14px}.task-hover .task p{font-size:12px}
+.combo-details{margin-top:9px;padding:9px;background:#f2f6f2;border:1px solid #dfe8df;border-radius:6px}.combo-details h4{font-size:12px;margin:0 0 8px;color:#246e59}
+.hero h1{margin-bottom:6px}.hero p{line-height:1.5}
+@media(min-width:1000px) and (min-height:620px){.compact-lab .hero h1{margin-bottom:5px}.compact-lab .hero p{line-height:1.5}.compact-lab .task-hover{margin:6px 0}.compact-lab .task-trigger{padding:4px 9px}.compact-lab .task-hover .tasks{max-height:230px}}
+.city-leader{stroke:#839a90;stroke-width:.7;fill:none}

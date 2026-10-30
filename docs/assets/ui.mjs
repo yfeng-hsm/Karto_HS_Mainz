@@ -2,7 +2,11 @@ export function setupLayout(kind){
  document.body.classList.add('compact-lab');
  const main=document.querySelector('main'),panel=document.querySelector('.controls-panel'),workspace=document.querySelector('.workspace');
  const stage=document.createElement('div');stage.className='lab-stage';panel.before(stage);stage.append(workspace,panel);
- const tasks=document.querySelector('.tasks'),details=document.createElement('details');details.className='task-details';const summary=document.createElement('summary');summary.textContent=kind==='color'?'Aufgabe: Klassifikation vergleichen → Farben wählen → begründen':'Aufgabe: Datenart erkennen → Zeichen wählen → Darstellung begründen';tasks.before(details);details.append(summary,tasks);
+ const tasks=document.querySelector('.tasks'),wrap=document.createElement('div');wrap.className='task-details task-hover';
+ const trigger=document.createElement('button');trigger.type='button';trigger.className='task-trigger';trigger.textContent='Aufgabe ⓘ';trigger.setAttribute('aria-describedby','task-tooltip');trigger.setAttribute('aria-expanded','false');
+ tasks.classList.add('task-popup');tasks.id='task-tooltip';tasks.setAttribute('role','tooltip');tasks.before(wrap);wrap.append(trigger,tasks);
+ const show=on=>{wrap.classList.toggle('is-open',on);trigger.setAttribute('aria-expanded',String(on));};
+ wrap.addEventListener('mouseenter',()=>show(true));wrap.addEventListener('mouseleave',()=>{if(!wrap.contains(document.activeElement))show(false);});wrap.addEventListener('focusin',()=>show(true));wrap.addEventListener('focusout',e=>{if(!wrap.contains(e.relatedTarget))show(false);});trigger.addEventListener('click',()=>show(true));trigger.addEventListener('keydown',e=>{if(e.key==='Escape')show(false);});document.addEventListener('pointerdown',e=>{if(!wrap.contains(e.target))show(false);});
  const help=document.createElement('details');help.className='help-details';const hs=document.createElement('summary');hs.textContent='Daten · Messwerte · Quellen';help.append(hs);main.append(help);for(const n of document.querySelectorAll('.note,.discussion,footer,.data-table'))help.append(n);
 }
 export function exportButtons(svg,name){

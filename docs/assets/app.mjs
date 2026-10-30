@@ -1,3 +1,4 @@
+import {setupLayout} from './ui.mjs?v=8';
 import {classify,BERTIN_BAD,COLOR_BAD,categorySize,categoryLight} from './core.mjs?v=5';
 const NS='http://www.w3.org/2000/svg';
 function el(tag,attrs={},parent){const n=document.createElementNS(NS,tag);for(const[k,v]of Object.entries(attrs))n.setAttribute(k,v);if(parent)parent.append(n);return n;}
@@ -5,24 +6,14 @@ function txt(parent,x,y,text,size=11,extra={}){const n=el('text',{x,y,'font-size
 const types=['Schulen','Kindertagesstätten','Bibliotheken','Sportzentren'];
 export async function start(){
  const d3=globalThis.d3,kind=document.body.dataset.lab;if(!kind)return;
- // Keep the map and its controls visible together on classroom laptops.
- document.body.classList.add('compact-lab');
- document.querySelector('.controls-heading h2').textContent='Karte gestalten';
- const main=document.querySelector('main'),panel=document.querySelector('.controls-panel'),workspace=document.querySelector('.workspace');
- const stage=document.createElement('div');stage.className='lab-stage';panel.before(stage);stage.append(workspace,panel);
- const tasks=document.querySelector('.tasks'),taskDetails=document.createElement('details');taskDetails.className='task-details';
- const taskSummary=document.createElement('summary');taskSummary.textContent=kind==='bertin'?'Aufgabe: Probleme erkennen → rechts verbessern → drei Änderungen begründen':'Aufgabe: Klassifikation vergleichen → Farben wählen → Entscheidungen begründen';
- tasks.before(taskDetails);taskDetails.append(taskSummary,tasks);
- const help=document.createElement('details');help.className='help-details';const hs=document.createElement('summary');hs.textContent='Datenhinweise · Vorzeigen · Quellen';help.append(hs);
- main.append(help);for(const n of document.querySelectorAll('.note,.discussion,footer'))help.append(n);
-
+ setupLayout(kind);
  const response=await fetch('data/mainz.json');if(!response.ok)throw Error('Kartendaten konnten nicht geladen werden.');const data=await response.json();
  const bad=kind==='bertin'?BERTIN_BAD:COLOR_BAD,state={...bad},values=data.population.map(d=>d.value);
  function build(id){
   const svg=document.getElementById(id),defs=el('defs',{},svg);el('rect',{width:600,height:680,fill:'#ffffff'},svg);
-txt(svg,16,23,'MAINZ  /  KARTOGRAPHISCHES LABOR',10,{'font-weight':'bold','letter-spacing':1});
-  txt(svg,16,46,kind==='bertin'?'Einrichtungen im Stadtraum':'Wie viele Menschen wohnen hier?',22,{'font-family':'Arial, sans-serif','font-weight':'bold'});
-  const subtitle=txt(svg,16,64,kind==='bertin'?'Vier Einrichtungstypen · Innenstadt und Umgebung':'Bevölkerung je 100 × 100 m · Zensus 2022',11);
+txt(svg,16,19,'MAINZ  /  KARTOGRAPHISCHES LABOR',10,{'font-weight':'bold','letter-spacing':1});
+  txt(svg,16,48,kind==='bertin'?'Einrichtungen im Stadtraum':'Wie viele Menschen wohnen hier?',21,{'font-family':'Arial, sans-serif','font-weight':'bold'});
+  const subtitle=txt(svg,16,70,kind==='bertin'?'Vier Einrichtungstypen · Innenstadt und Umgebung':'Bevölkerung je 100 × 100 m · Zensus 2022',11);
   const view=data.views[kind==='bertin'?'bertin':'color'];const projection=d3.geoIdentity().reflectY(true).fitExtent([[16,77],[584,574]],{type:'LineString',coordinates:[[view[0],view[2]],[view[1],view[3]]]});const path=d3.geoPath(projection);
   const clip=el('clipPath',{id:id+'-clip'},defs);el('rect',{x:16,y:77,width:568,height:497},clip);
   const g=el('g',{'clip-path':`url(#${id}-clip)`},svg);el('rect',{x:16,y:77,width:568,height:497,fill:'#f1f0e8'},g);
@@ -65,7 +56,7 @@ txt(svg,16,23,'MAINZ  /  KARTOGRAPHISCHES LABOR',10,{'font-weight':'bold','lette
   }return{svg,update};
  }
  const left=build('map-left'),right=build('map-right');left.update(bad);
- let queued=false;function render(){queued=false;right.update(state);document.querySelectorAll('[data-key]').forEach(n=>{if(n.type==='checkbox')n.checked=state[n.dataset.key];else n.value=state[n.dataset.key];const out=document.getElementById(n.id+'-value');if(out)out.value=n.value;});if(kind==='bertin'){document.getElementById('density').disabled=!state.texture;document.getElementById('palette').disabled=state.valueOnly;}if(kind==='color')document.getElementById('contrast').disabled=state.palette==='category';document.getElementById('live-state').textContent='● Vorschau aktuell';}
+ let queued=false;function render(){queued=false;right.update(state);document.querySelectorAll('[data-key]').forEach(n=>{if(n.type==='checkbox')n.checked=state[n.dataset.key];else n.value=state[n.dataset.key];const out=document.getElementById(n.id+'-value');if(out)out.value=n.value;});if(kind==='bertin'){document.getElementById('density').disabled=!state.texture;document.getElementById('palette').disabled=state.valueOnly;}if(kind==='color')document.getElementById('contrast').disabled=state.palette==='category';}
  document.querySelectorAll('[data-key]').forEach(n=>n.addEventListener('input',()=>{state[n.dataset.key]=n.type==='checkbox'?n.checked:n.type==='range'?+n.value:n.value;if(!queued){queued=true;requestAnimationFrame(render);}}));
  document.getElementById('reset').onclick=()=>{Object.assign(state,bad);render();};
  function download(blob,ext){const a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=`Mainz_${kind}.${ext}`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
