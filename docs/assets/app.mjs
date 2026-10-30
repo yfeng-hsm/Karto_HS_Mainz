@@ -7,6 +7,7 @@ export async function start(){
  const d3=globalThis.d3,kind=document.body.dataset.lab;if(!kind)return;
  // Keep the map and its controls visible together on classroom laptops.
  document.body.classList.add('compact-lab');
+ document.querySelector('.controls-heading h2').textContent='Karte gestalten';
  const main=document.querySelector('main'),panel=document.querySelector('.controls-panel'),workspace=document.querySelector('.workspace');
  const stage=document.createElement('div');stage.className='lab-stage';panel.before(stage);stage.append(workspace,panel);
  const tasks=document.querySelector('.tasks'),taskDetails=document.createElement('details');taskDetails.className='task-details';
