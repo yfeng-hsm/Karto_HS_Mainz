@@ -10,21 +10,23 @@ Interaktive Webübungen mit offenen Bibliotheken. Ohne Anmeldung, Installation o
 | [03](03_map_projection/) | Map Projection / Kartenprojektionen | Ordner vorbereitet |
 | [04](04_3d_geovisualization/) | 3D-Geovisualisierung | Ordner vorbereitet |
 
-## Übung 01 im Browser starten
+## Übung 01: fünf Fälle im Browser
 
-- [Teil 1 · Bertins visuelle Variablen](https://yfeng-hsm.github.io/Karto_HS_Mainz/docs/bertin.html)
-- [Teil 2 · Farben und Klassifikation](https://yfeng-hsm.github.io/Karto_HS_Mainz/docs/farben.html)
+| Fall | Datentyp / Fokus | Datengrundlage |
+|---|---|---|
+| [1 · Nominal](https://yfeng-hsm.github.io/Karto_HS_Mainz/docs/bertin.html) | Einrichtungstypen ohne Rangfolge | Mainzer OSM-Einrichtungen |
+| [2 · Ordinal](https://yfeng-hsm.github.io/Karto_HS_Mainz/docs/ordinal.html) | Reihenfolge von Stufen | Didaktische Windstufen aus DWD-Werten |
+| [3 · Quantitativ](https://yfeng-hsm.github.io/Karto_HS_Mainz/docs/quantitativ.html) | Zahlen und Mengenvergleiche | DWD-Windgeschwindigkeit (m/s) |
+| [4 · Richtung](https://yfeng-hsm.github.io/Karto_HS_Mainz/docs/richtung.html) | Orientierung und Richtungssinn | DWD-Windrichtung |
+| [5 · Klassifikation und Farbe](https://yfeng-hsm.github.io/Karto_HS_Mainz/docs/farben.html) | Jenks, Quantile, Intervalle, Farbwahl | Mainzer Zensus-Bevölkerung 100 m |
 
-Ca. 45 Minuten: oben den Auftrag lesen, links die problematische Karte diskutieren, rechts verbessern. Jede Einstellung aktualisiert die rechte Karte sofort. Die Ausgangskarte bleibt unverändert. SVG und PNG können exportiert werden. Beide Karten enthalten einen Deutschland-Locator mit Mainz. Auf Laptops bleiben Bedienelemente und beide Karten gemeinsam im sichtbaren Fenster; Aufgaben und Datenhinweise sind ausklappbar.
+Links bleibt die problematische Ausgangskarte unverändert. Rechts wird sie überarbeitet; die Bedienelemente stehen einspaltig ganz rechts. Fälle 1–3: zuerst eine von sechs Hauptvariablen wählen, dann deren Parameter einstellen. Nur passende Kombinationen sind optional verfügbar. Klassifikation und Farbpalettenvergleich sind auf Fall 5 konzentriert. SVG-/PNG-Export, keine Anmeldung erforderlich.
 
-Alle Karten werden lokal im Browser aus mitgelieferten Daten gezeichnet. Es werden keine externen Karten-APIs benötigt. D3 7.9.0 ist inklusive MIT-Lizenz im Repository enthalten.
+Die DWD-Daten stammen aus derselben Stunde: **28.10.2026, 12:00 UTC**. Es werden keine Messwerte erfunden und keine flächigen Windfelder interpoliert. Siehe [DWD-Quellen, Konventionen und Lizenz](docs/data/README_DWD.md).
 
-### GitHub Pages aktivieren
+[Übersicht öffnen](https://yfeng-hsm.github.io/Karto_HS_Mainz/docs/index.html). Lokal: `python -m http.server 8000 --directory docs`.
 
-Settings → Pages → Deploy from a branch → **main**, Ordner **/docs** → Save.
-Die Website-Dateien liegen in [docs](docs/). Lokal: `python -m http.server 8000 --directory docs`.
-
-Das frühere [Colab-Notebook](01_visual_variables_color/01_Visuelle_Variablen_und_Farbe.ipynb) bleibt als optionale Python-Version erhalten.
+Das frühere [Colab-Notebook](01_visual_variables_color/01_Visuelle_Variablen_und_Farbe.ipynb) bleibt als optionale ältere Python-Version erhalten.
 
 ## Lizenzen und Quellen
 

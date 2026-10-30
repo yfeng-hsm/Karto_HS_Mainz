@@ -47,3 +47,7 @@
  .compact-lab .micro{font-size:10px;line-height:1.35}
  .compact-lab .context-controls{font-size:11px}
 }
+[hidden]{display:none!important}.reasoning{font-size:12px;color:#596b5b}.reasoning summary{cursor:pointer;font-weight:600}.reasoning p{line-height:1.45}.data-table{margin:10px 14px;font-size:12px}.data-table summary{cursor:pointer;font-weight:600}.data-table table{border-collapse:collapse;width:100%;margin:8px 0}.data-table th,.data-table td{border-bottom:1px solid #dddacf;text-align:left;padding:5px}.link-cards{grid-template-columns:repeat(3,minmax(0,1fr))}.landing{max-width:1300px}
+@media(min-width:1000px) and (min-height:620px){.compact-lab .lab-stage{grid-template-columns:minmax(0,1fr) 238px}.compact-lab .control-group h3{font-size:13px}.compact-lab .control-group label,.compact-lab .control-group .check{font-size:12px}.compact-lab select{font-size:12px;height:30px}.compact-lab .micro{font-size:11px}.compact-lab .map-label strong{font-size:12px}.compact-lab .hero p{font-size:12px}.compact-lab .controls-heading h2{font-size:14px}.compact-lab .live-state{font-size:11px}.compact-lab .navlinks a{font-size:12px;padding:4px 8px}.compact-lab .help-details summary{font-size:11px}.compact-lab .help-details[open]{max-height:200px}}
+@media(max-width:999px){.nav{flex-wrap:wrap}.navlinks{flex-wrap:wrap}.link-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.lab-stage{display:flex;flex-direction:column}.controls-panel{order:-1}}
+@media(max-width:700px){.link-cards{grid-template-columns:1fr}}

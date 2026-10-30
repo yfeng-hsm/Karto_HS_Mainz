@@ -33,11 +33,11 @@ export async function start(){
   const marks=el('g',{},g),labelGroup=el('g',{},g);let nodes=[];
   if(kind==='bertin')nodes=data.pois.map(p=>{const n=el('path',{},marks);el('title',{},n).textContent=p.name+' · '+types[p.category];return n;});
   else nodes=data.population.map(p=>{const n=el('path',{d:path(p.geometry),'fill-rule':'evenodd'},marks);el('title',{},n).textContent=p.value+' Einwohner · '+p.id;return n;});
-  data.labels.forEach(l=>{const[x,y]=projection([l.x,l.y]);txt(labelGroup,x,y,l.name,8,{'letter-spacing':1,'paint-order':'stroke',stroke:'#fffdf7','stroke-width':2,'text-anchor':'middle'});});
-  el('rect',{x:495,y:81,width:85,height:109,fill:'#fffdf7','fill-opacity':.94,rx:4},svg);const gp=d3.geoIdentity().reflectY(true).fitExtent([[508,103],[571,174]],data.germany);el('path',{d:d3.geoPath(gp)(data.germany),fill:'#e3e3d9',stroke:'#a6b2a8','stroke-width':.7},svg);const[dx,dy]=gp(data.mainz);el('circle',{cx:dx,cy:dy,r:3,fill:'#c75538',stroke:'white'},svg);txt(svg,dx+4,dy+3,'Mainz',8);txt(svg,502,94,'DEUTSCHLAND',7,{'font-weight':'bold','letter-spacing':1});
+  data.labels.forEach(l=>{const[x,y]=projection([l.x,l.y]);txt(labelGroup,x,y,l.name,12,{'letter-spacing':1,'paint-order':'stroke',stroke:'#fffdf7','stroke-width':2,'text-anchor':'middle'});});
+  el('rect',{x:495,y:81,width:85,height:109,fill:'#fffdf7','fill-opacity':.94,rx:4},svg);const gp=d3.geoIdentity().reflectY(true).fitExtent([[508,103],[571,174]],data.germany);el('path',{d:d3.geoPath(gp)(data.germany),fill:'#e3e3d9',stroke:'#a6b2a8','stroke-width':.7},svg);const[dx,dy]=gp(data.mainz);el('circle',{cx:dx,cy:dy,r:3,fill:'#c75538',stroke:'white'},svg);txt(svg,dx+4,dy+3,'Mainz',11);txt(svg,502,94,'DEUTSCHLAND',10,{'font-weight':'bold','letter-spacing':1});
   const legend=el('g',{},svg),stats=el('g',{},svg);
   const distance=kind==='bertin'?1000:2000,scale=projection.scale()*distance;el('path',{d:`M16,623v5h${scale}v-5`,stroke:'#293c38',fill:'none'},svg);txt(svg,16,639,(distance/1000)+' km',10);txt(svg,565,637,'N ↑',11);
-  txt(svg,16,654,'© OpenStreetMap contributors · Kartenhintergrund vereinfacht',8);txt(svg,16,666,kind==='bertin'?'OSM: 24.10.2026 · Typen, keine Kapazitäten oder Qualitätswerte':'Zensus: 15.05.2022 · Fehlende/unterdrückte Werte sind nicht null',8);
+  txt(svg,16,654,'© OpenStreetMap contributors · Kartenhintergrund vereinfacht',12);txt(svg,16,666,kind==='bertin'?'OSM: 24.10.2026 · Typen, keine Kapazitäten oder Qualitätswerte':'Zensus: 15.05.2022 · Fehlende/unterdrückte Werte sind nicht null',12);
   function update(s){
    labelGroup.setAttribute('display',s.names?'':'none');legend.replaceChildren();stats.replaceChildren();
    if(kind==='bertin'){
@@ -58,7 +58,7 @@ export async function start(){
     let colors=Array.from({length:k},(_,i)=>s.palette==='category'?d3.schemeTableau10[i]:ramps[s.palette](.52+((.12+.82*i/Math.max(1,k-1))-.52)*s.contrast));if(s.reverse)colors.reverse();
     if(s.gray)colors=colors.map(v=>{const c=d3.rgb(v),l=Math.round(.2126*c.r+.7152*c.g+.0722*c.b);return `rgb(${l},${l},${l})`;});
     nodes.forEach((n,i)=>{n.setAttribute('fill',colors[c.ids[i]]);n.setAttribute('stroke','#fffdf7');n.setAttribute('stroke-width',s.border);});
-    c.bins.forEach((b,i)=>{const x=18+i*(565/k);el('rect',{x,y:587,width:12,height:12,fill:colors[i]},legend);const low=i?Math.floor(c.bins[i-1])+1:Math.min(...values);txt(legend,x+16,597,`${low}–${Math.floor(b)}`,9);txt(legend,x+16,608,`${c.counts[i]} Zellen`,7,{fill:'#7b817b'});});
+    c.bins.forEach((b,i)=>{const x=18+i*(565/k);el('rect',{x,y:587,width:12,height:12,fill:colors[i]},legend);const low=i?Math.floor(c.bins[i-1])+1:Math.min(...values);txt(legend,x+16,597,`${low}–${Math.floor(b)}`,13);txt(legend,x+16,614,`${c.counts[i]} Zellen`,10,{fill:'#7b817b'});});
     subtitle.textContent=`100 × 100 m · ${s.method==='equal'?'Gleiche Intervalle':s.method==='jenks'?'Jenks / natürliche Grenzen':'Quantile'} · ${k} Klassen`;
 
    }
