@@ -30,7 +30,7 @@ export function classify(values,method,k) {
  const result={bins,ids,counts};record.results.set(key,result);return result;
 }
 export const BERTIN_BAD={size:155,sizeMode:'same',light:.44,lightMode:'same',valueOnly:false,palette:'bright',form:'mixed',angle:40,directions:true,texture:true,density:3,background:.95,names:true};
-export const COLOR_BAD={method:'quantile',classes:7,palette:'category',contrast:1,reverse:false,gray:false,border:.25,names:true};
+export const COLOR_BAD={symbolForm:'none',classShapes:false,symbolSize:4,logCounts:false,method:'quantile',classes:7,palette:'category',contrast:1,reverse:false,gray:false,border:.25,names:true};
 export function categorySize(s,i){return s.size*(s.sizeMode==='category'?[1,.50,.23,.10][i]:1);}
 export function categoryLight(s,i){return s.lightMode==='category'?Math.max(.12,Math.min(.94,s.light+[-.25,-.08,.09,.26][i])):s.light;}
 export function cellLabel(lo,hi){return `${Math.floor(lo)}–${Math.floor(hi)}`;}

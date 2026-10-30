@@ -11,6 +11,16 @@ for(const[kind,file]of[['nominal','bertin'],['ordinal','ordinal'],['quantitative
  const actualSymbols=()=>[...app.right.svg.querySelectorAll('.data-symbol')].map(n=>({d:n.getAttribute('d'),fill:n.getAttribute('fill')}));const locator=app.right.svg.querySelector('.map-locator').outerHTML;if(!referenceLocator)referenceLocator=locator;assert.equal(locator,referenceLocator);assert(!app.right.svg.textContent.includes('KARTOGRAPHISCHES LABOR'));
  const change=async(id,v,eventType='input')=>{const n=w.document.getElementById(id);if(n.type==='checkbox')n.checked=v;else n.value=v;n.dispatchEvent(new w.Event(eventType));await new Promise(r=>w.requestAnimationFrame(r));};
  if(kind==='color')await change('palette','warm');else if(kind==='direction'){for(const mode of ['hue','form','size','value','texture','orientation'])await change('mode',mode);await change('symbol','arrow');await change('encode',true);assert(app.right.svg.outerHTML.includes('rotate(150)'));}else for(const mode of ['hue','form','size','value','texture','orientation']){await change('mode',mode);assert.equal(app.state.mode,mode);assert.equal(app.state.combine,false);assert(!app.right.svg.outerHTML.includes('NaN'));}
+ if(kind==='color'){
+  const boundaries=()=>[...app.right.svg.querySelectorAll('.class-boundary')].map(n=>+n.getAttribute('x1'));
+  assert.equal(boundaries().length,classify(mainz.population.map(p=>p.value),app.state.method,app.state.classes).bins.length-1);
+  const before=boundaries();await change('method','equal');assert.notDeepEqual(boundaries(),before);
+  const histBefore=app.right.svg.querySelector('.histogram').outerHTML;await change('logCounts',true);assert.notEqual(app.right.svg.querySelector('.histogram').outerHTML,histBefore);
+  await change('symbolForm','circle');assert.equal(w.document.getElementById('shape-options').hidden,false);assert.equal(app.right.svg.querySelectorAll('.population-cell[transform]').length,2982);
+  const mark=app.right.svg.querySelector('.population-cell').getAttribute('d');await change('symbolSize',7);assert.notEqual(app.right.svg.querySelector('.population-cell').getAttribute('d'),mark);
+  await change('classShapes',true);assert(new Set([...app.right.svg.querySelectorAll('.population-cell')].map(n=>n.getAttribute('d'))).size>1);
+  await change('symbolForm','none');assert.equal(app.right.svg.querySelectorAll('.population-cell[transform]').length,0);
+ }
  if(kind==='direction'){
   assert.equal(actualSymbols().length,26);await change('mode','size');await change('size',12);const small=actualSymbols();await change('size',44,'change');const big=actualSymbols();assert.equal(big.filter((p,i)=>p.d!==small[i].d).length,26,'Wind map symbols must resize, not just the legend');
   await change('mode','value');await change('valueFamily','blue');const blue=actualSymbols();await change('valueFamily','orange','change');assert.equal(actualSymbols().filter((p,i)=>p.fill!==blue[i].fill).length,26,'Wind map symbols must recolor, not just the legend');
