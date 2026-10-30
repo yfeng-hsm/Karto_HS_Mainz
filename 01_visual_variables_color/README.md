@@ -1,16 +1,19 @@
-# Übung 01 · Eine Karte besser machen
+# Übung 01 · Visuelle Variablen und Farbe
 
-**Version 3 · Zwei Beispiele, zwei Blöcke · 45 Minuten**
+**Fünf interaktive Fälle · ca. 45 Minuten**
 
-[In Google Colab öffnen](https://colab.research.google.com/github/yfeng-hsm/Karto_HS_Mainz/blob/main/01_visual_variables_color/01_Visuelle_Variablen_und_Farbe.ipynb).
+**[Übung im Browser öffnen](https://yfeng-hsm.github.io/Karto_HS_Mainz/)**
 
-1. Alle Zellen ausführen (5 Min.).
-2. Block 1: links problematische Einrichtungen-Karte, rechts eigene Überarbeitung mit Bertins sechs Variablen (20 Min.).
-3. Block 2: links problematische Bevölkerungskarte, rechts mit Farben, Kontrast und Klassifikation verbessern (18 Min.).
-4. Drei Entscheidungen begründen (2 Min.).
+1. [Einrichtungen](https://yfeng-hsm.github.io/Karto_HS_Mainz/bertin.html)
+2. [Rollstuhlzugang](https://yfeng-hsm.github.io/Karto_HS_Mainz/ordinal.html)
+3. [Stadtbevölkerung](https://yfeng-hsm.github.io/Karto_HS_Mainz/quantitativ.html)
+4. [Wind](https://yfeng-hsm.github.io/Karto_HS_Mainz/richtung.html)
+5. [Bevölkerungsraster](https://yfeng-hsm.github.io/Karto_HS_Mainz/farben.html)
 
-**Bedienung:** Regler einstellen → „Rechte Karte aktualisieren“. Nur die rechte Darstellung wird neu gerendert; die linke bleibt als Referenz sichtbar. Ein gemeinsamer Ausschnitt hält beide Karten vergleichbar. Keine Fallauswahl oder zusätzliche Galerie. „Zurücksetzen“ stellt den Ausgangsentwurf wieder her. Exportiert wird die tatsächlich angezeigte rechte Karte.
+Links bleibt die Ausgangskarte unverändert. Rechts gestalten Sie Ihre Überarbeitung über die Bedienelemente. Aufgaben stehen beim Info-Symbol neben dem Titel.
 
-Geometrien, Klassifikationen und gerenderte Bilder werden zwischengespeichert. Die Vorschau verwendet eine reduzierte Auflösung; SVG und PNG werden unabhängig davon in Exportqualität erzeugt. Der Locator zeigt Mainz in Deutschland (Natural Earth, Public Domain).
+Bestimmen Sie die Informationsart, vergleichen Sie visuelle Variablen und begründen Sie Ihre Wahl. Im fünften Fall vergleichen Sie Klassifikation und Farbpaletten anhand der Karte und des Histogramms.
 
-Keine Datei-Abgabe, keine umfangreiche Programmierung. Code und Daten sind eingebettet; nach Änderungen `python tools/build_notebook.py` ausführen. Andere Übungsordner sind unverändert Platzhalter.
+Zeigen Sie dem Dozenten Ihre Ergebnisse und erläutern Sie Ihre Entscheidungen. Wenn Sie fertig sind, melden Sie sich per Handzeichen. Keine Datei-Abgabe erforderlich.
+
+Der Webcode liegt in [`docs/`](../docs/). Dieser Ordner enthält die ursprünglichen Geodaten und Quellenhinweise in [`data/`](data/).
