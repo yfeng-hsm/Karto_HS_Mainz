@@ -1,5 +1,5 @@
-import {setupLayout,drawLocator} from './ui.mjs?v=12';
-import {classify,BERTIN_BAD,COLOR_BAD,categorySize,categoryLight} from './core.mjs?v=10';
+import {setupLayout,drawLocator} from './ui.mjs?v=13';
+import {classify,BERTIN_BAD,COLOR_BAD,categorySize,categoryLight} from './core.mjs?v=13';
 const NS='http://www.w3.org/2000/svg';
 function el(tag,attrs={},parent){const n=document.createElementNS(NS,tag);for(const[k,v]of Object.entries(attrs))n.setAttribute(k,v);if(parent)parent.append(n);return n;}
 function txt(parent,x,y,text,size=11,extra={}){const n=el('text',{x,y,'font-size':size,fill:'#293c38','font-family':'Arial, sans-serif',...extra},parent);n.textContent=text;return n;}
@@ -48,10 +48,7 @@ export async function start(){
     const ramps={warm:d3.interpolateYlOrRd,blue:d3.interpolateBlues,green:d3.interpolateGreens,purple:d3.interpolatePurples,viridis:d3.interpolateViridis,diverging:d3.interpolateRdBu};
     let colors=Array.from({length:k},(_,i)=>s.palette==='category'?d3.schemeTableau10[i]:ramps[s.palette](.52+((.12+.82*i/Math.max(1,k-1))-.52)*s.contrast));if(s.reverse)colors.reverse();
     if(s.gray)colors=colors.map(v=>{const c=d3.rgb(v),l=Math.round(.2126*c.r+.7152*c.g+.0722*c.b);return `rgb(${l},${l},${l})`;});
-    const forms=[d3.symbolCircle,d3.symbolSquare,d3.symbolTriangle,d3.symbolDiamond,d3.symbolCross,d3.symbolStar,d3.symbolWye];
-    const shapeFor=i=>s.classShapes?forms[i%forms.length]:({circle:d3.symbolCircle,square:d3.symbolSquare,triangle:d3.symbolTriangle,diamond:d3.symbolDiamond}[s.symbolForm]||d3.symbolCircle);
-    const shapePath=i=>d3.symbol().type(shapeFor(i)).size(Math.PI*s.symbolSize*s.symbolSize)();
-    nodes.forEach((n,i)=>{const cell=data.population[i],symbol=s.symbolForm!=='none';n.setAttribute('class','population-cell');n.setAttribute('d',symbol?shapePath(c.ids[i]):path(cell.geometry));if(symbol){const [x,y]=path.centroid(cell.geometry);n.setAttribute('transform',`translate(${x},${y})`);}else n.removeAttribute('transform');n.setAttribute('fill',colors[c.ids[i]]);n.setAttribute('stroke','#ffffff');n.setAttribute('stroke-width',s.border);});
+    nodes.forEach((n,i)=>{n.setAttribute('class','population-cell');n.setAttribute('fill',colors[c.ids[i]]);n.setAttribute('stroke','#ffffff');n.setAttribute('stroke-width',s.border);});
     // Equal-width bins retain the numerical distribution; class boundaries use the same numeric x-scale.
     txt(stats,18,483,'VERTEILUNG · Personen je 100 × 100 m',11,{'font-weight':'bold'});
     txt(stats,580,483,s.logCounts?'Häufigkeit (log₁₀(1+n))':'Häufigkeit (Zellen)',10,{'text-anchor':'end'});
@@ -65,14 +62,14 @@ export async function start(){
     x.ticks(5).forEach(v=>{txt(stats,x(v),567,v,10,{'text-anchor':'middle'});});
     c.bins.slice(0,-1).forEach(v=>{const line=el('line',{'class':'class-boundary',x1:x(v),x2:x(v),y1:490,y2:553,stroke:'#203a37','stroke-width':1.3,'stroke-dasharray':'3 2'},stats);el('title',{},line).textContent=`Klassengrenze: ${Number(v.toFixed(2))}`;});
 
-    c.bins.forEach((b,i)=>{const x=18+i*(565/k);if(s.symbolForm==='none')el('rect',{x,y:587,width:12,height:12,fill:colors[i]},legend);else el('path',{d:shapePath(i),transform:`translate(${x+6},593)`,fill:colors[i]},legend);const low=i?Math.floor(c.bins[i-1])+1:Math.min(...values);txt(legend,x+16,597,`${low}–${Math.floor(b)}`,13);txt(legend,x+16,614,`${c.counts[i]} Zellen`,10,{fill:'#7b817b'});});
-    subtitle.textContent=`100 × 100 m · ${s.method==='equal'?'Gleiche Intervalle':s.method==='jenks'?'Jenks / natürliche Grenzen':'Quantile'} · ${k} Klassen`;
+    c.bins.forEach((b,i)=>{const x=18+i*(565/k);el('rect',{x,y:587,width:12,height:12,fill:colors[i]},legend);const low=i?Math.floor(c.bins[i-1])+1:Math.min(...values);txt(legend,x+16,597,`${low}–${Math.floor(b)}`,13);txt(legend,x+16,614,`${c.counts[i]} Zellen`,10,{fill:'#7b817b'});});
+    subtitle.textContent=`100 × 100 m · ${s.method==='equal'?'Gleiche Intervalle':s.method==='jenks'?'Jenks / natürliche Grenzen':s.method==='log'?'Logarithmische Intervalle':'Quantile'} · ${k} Klassen`;
 
    }
   }return{svg,update};
  }
  const left=build('map-left'),right=build('map-right');left.update(bad);
- let queued=false;function render(){queued=false;right.update(state);document.querySelectorAll('[data-key]').forEach(n=>{if(n.type==='checkbox')n.checked=state[n.dataset.key];else n.value=state[n.dataset.key];const out=document.getElementById(n.id+'-value');if(out)out.value=n.value;});if(kind==='bertin'){document.getElementById('density').disabled=!state.texture;document.getElementById('palette').disabled=state.valueOnly;}if(kind==='color'){document.getElementById('contrast').disabled=state.palette==='category';document.getElementById('shape-options').hidden=state.symbolForm==='none';}}
+ let queued=false;function render(){queued=false;right.update(state);document.querySelectorAll('[data-key]').forEach(n=>{if(n.type==='checkbox')n.checked=state[n.dataset.key];else n.value=state[n.dataset.key];const out=document.getElementById(n.id+'-value');if(out)out.value=n.value;});if(kind==='bertin'){document.getElementById('density').disabled=!state.texture;document.getElementById('palette').disabled=state.valueOnly;}if(kind==='color'){document.getElementById('contrast').disabled=state.palette==='category';}}
  document.querySelectorAll('[data-key]').forEach(n=>{const onChange=()=>{state[n.dataset.key]=n.type==='checkbox'?n.checked:n.type==='range'?+n.value:n.value;if(!queued){queued=true;requestAnimationFrame(render);}};n.addEventListener('input',onChange);n.addEventListener('change',onChange);});
  document.getElementById('reset').onclick=()=>{Object.assign(state,bad);render();};
  function download(blob,ext){const a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=`Mainz_${kind}.${ext}`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}

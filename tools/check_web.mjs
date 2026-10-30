@@ -2,7 +2,7 @@
 import {createRequire} from 'node:module';import fs from 'node:fs';import assert from 'node:assert/strict';import {classify} from '../docs/assets/core.mjs';import {flowTo,speedLevel,symbolArea,toneColor} from '../docs/assets/variables-core.mjs';
 const require=createRequire(import.meta.url),{JSDOM,VirtualConsole}=require('jsdom'),mainz=JSON.parse(fs.readFileSync('docs/data/mainz.json')),wind=JSON.parse(fs.readFileSync('docs/data/wind.json'));
 assert.equal(flowTo(360),180);assert.equal(flowTo(90),270);assert.equal(flowTo(330),150);assert.equal(symbolArea(4,6,10)/symbolArea(2,6,10),2);assert.deepEqual([1.9,2,3.9,4,5.9,6].map(speedLevel),[0,1,1,2,2,3]);assert.equal(wind.stations.length,26);for(const p of wind.stations){assert.equal(p.to_deg,flowTo(p.from_deg));assert.equal(p.level,speedLevel(p.speed));assert(p.speed>0&&p.from_deg>0&&p.from_deg<=360);}
-for(const m of ['equal','quantile','jenks'])assert.equal(classify(mainz.population.map(p=>p.value),m,5).counts.reduce((a,b)=>a+b),2982);
+for(const m of ['equal','quantile','jenks','log'])assert.equal(classify(mainz.population.map(p=>p.value),m,5).counts.reduce((a,b)=>a+b),2982);
 const access=JSON.parse(fs.readFileSync('docs/data/accessibility.json')),cities=JSON.parse(fs.readFileSync('docs/data/cities.json')),region=JSON.parse(fs.readFileSync('docs/data/region.json'));assert.equal(cities.cities.length,20);assert(cities.cities.every(p=>p.reference_date==='2024-12-31'));assert.equal(cities.cities.find(p=>p.name==='Mainz').population,224684);assert.deepEqual([...new Set(access.pois.map(p=>p.access))].sort(),['limited','no','yes']);
 let referenceLocator;globalThis.KARTO_TEST=true;const vars=await import('../docs/assets/variables.mjs'),colors=await import('../docs/assets/app.mjs');
 for(const[kind,file]of[['nominal','bertin'],['ordinal','ordinal'],['quantitative','quantitativ'],['direction','richtung'],['color','farben']]){
@@ -16,10 +16,8 @@ for(const[kind,file]of[['nominal','bertin'],['ordinal','ordinal'],['quantitative
   assert.equal(boundaries().length,classify(mainz.population.map(p=>p.value),app.state.method,app.state.classes).bins.length-1);
   const before=boundaries();await change('method','equal');assert.notDeepEqual(boundaries(),before);
   const histBefore=app.right.svg.querySelector('.histogram').outerHTML;await change('logCounts',true);assert.notEqual(app.right.svg.querySelector('.histogram').outerHTML,histBefore);
-  await change('symbolForm','circle');assert.equal(w.document.getElementById('shape-options').hidden,false);assert.equal(app.right.svg.querySelectorAll('.population-cell[transform]').length,2982);
-  const mark=app.right.svg.querySelector('.population-cell').getAttribute('d');await change('symbolSize',7);assert.notEqual(app.right.svg.querySelector('.population-cell').getAttribute('d'),mark);
-  await change('classShapes',true);assert(new Set([...app.right.svg.querySelectorAll('.population-cell')].map(n=>n.getAttribute('d'))).size>1);
-  await change('symbolForm','none');assert.equal(app.right.svg.querySelectorAll('.population-cell[transform]').length,0);
+  const cells=()=>[...app.right.svg.querySelectorAll('.population-cell')].map(n=>n.getAttribute('fill'));const linearMap=cells();const linearCuts=boundaries();await change('method','log');assert.notDeepEqual(boundaries(),linearCuts);assert.notDeepEqual(cells(),linearMap);assert(!w.document.getElementById('symbolForm'));const logMap=cells();await change('logCounts',false);assert.deepEqual(cells(),logMap);
+
  }
  if(kind==='direction'){
   assert.equal(actualSymbols().length,26);await change('mode','size');await change('size',12);const small=actualSymbols();await change('size',44,'change');const big=actualSymbols();assert.equal(big.filter((p,i)=>p.d!==small[i].d).length,26,'Wind map symbols must resize, not just the legend');

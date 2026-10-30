@@ -22,6 +22,7 @@ export function classify(values,method,k) {
  let bins;
  if(method==='equal'){const lo=s[0],hi=s.at(-1);bins=Array.from({length:k},(_,i)=>lo+(hi-lo)*(i+1)/k);}
  else if(method==='quantile')bins=Array.from({length:k},(_,i)=>quantile(s,(i+1)/k));
+ else if(method==='log'){if(s[0]<0)throw Error('Logarithmische Intervalle benötigen nichtnegative Werte.');const lo=Math.log1p(s[0]),hi=Math.log1p(s.at(-1));bins=Array.from({length:k},(_,i)=>Math.expm1(lo+(hi-lo)*(i+1)/k));}
  else if(method==='jenks')bins=fisherJenks(s,k);
  else throw Error('Unbekannte Klassifikation.');
  bins=[...new Set(bins)];bins[bins.length-1]=s.at(-1);
@@ -30,7 +31,7 @@ export function classify(values,method,k) {
  const result={bins,ids,counts};record.results.set(key,result);return result;
 }
 export const BERTIN_BAD={size:155,sizeMode:'same',light:.44,lightMode:'same',valueOnly:false,palette:'bright',form:'mixed',angle:40,directions:true,texture:true,density:3,background:.95,names:true};
-export const COLOR_BAD={symbolForm:'none',classShapes:false,symbolSize:4,logCounts:false,method:'quantile',classes:7,palette:'category',contrast:1,reverse:false,gray:false,border:.25,names:true};
+export const COLOR_BAD={logCounts:false,method:'quantile',classes:7,palette:'category',contrast:1,reverse:false,gray:false,border:.25,names:true};
 export function categorySize(s,i){return s.size*(s.sizeMode==='category'?[1,.50,.23,.10][i]:1);}
 export function categoryLight(s,i){return s.lightMode==='category'?Math.max(.12,Math.min(.94,s.light+[-.25,-.08,.09,.26][i])):s.light;}
 export function cellLabel(lo,hi){return `${Math.floor(lo)}–${Math.floor(hi)}`;}
