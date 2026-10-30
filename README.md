@@ -12,10 +12,10 @@ Interaktive Webübungen mit offenen Bibliotheken. Ohne Anmeldung, Installation o
 
 ## Übung 01 im Browser starten
 
-- [Teil 1 · Bertins visuelle Variablen](https://yfeng-hsm.github.io/Karto_HS_Mainz/bertin.html)
-- [Teil 2 · Farben und Klassifikation](https://yfeng-hsm.github.io/Karto_HS_Mainz/farben.html)
+- [Teil 1 · Bertins visuelle Variablen](https://yfeng-hsm.github.io/Karto_HS_Mainz/docs/bertin.html)
+- [Teil 2 · Farben und Klassifikation](https://yfeng-hsm.github.io/Karto_HS_Mainz/docs/farben.html)
 
-Ca. 45 Minuten: oben den Auftrag lesen, links die problematische Karte diskutieren, rechts verbessern. Jede Einstellung aktualisiert die rechte Karte sofort. Die Ausgangskarte bleibt unverändert. SVG und PNG können exportiert werden. Beide Karten enthalten einen Deutschland-Locator mit Mainz.
+Ca. 45 Minuten: oben den Auftrag lesen, links die problematische Karte diskutieren, rechts verbessern. Jede Einstellung aktualisiert die rechte Karte sofort. Die Ausgangskarte bleibt unverändert. SVG und PNG können exportiert werden. Beide Karten enthalten einen Deutschland-Locator mit Mainz. Auf Laptops bleiben Bedienelemente und beide Karten gemeinsam im sichtbaren Fenster; Aufgaben und Datenhinweise sind ausklappbar.
 
 Alle Karten werden lokal im Browser aus mitgelieferten Daten gezeichnet. Es werden keine externen Karten-APIs benötigt. D3 7.9.0 ist inklusive MIT-Lizenz im Repository enthalten.
 
