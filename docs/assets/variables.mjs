@@ -1,5 +1,5 @@
-import {setupLayout,exportButtons,drawLocator} from './ui.mjs?v=11';
-import {flowTo,symbolArea,defaultState,placeLabels,toneColor} from './variables-core.mjs?v=11';
+import {setupLayout,exportButtons,drawLocator} from './ui.mjs?v=12';
+import {flowTo,symbolArea,defaultState,placeLabels,toneColor} from './variables-core.mjs?v=12';
 const NS='http://www.w3.org/2000/svg',TYPES=['Schulen','Kindertagesstätten','Bibliotheken','Sportzentren'];
 function el(tag,a={},p){const n=document.createElementNS(NS,tag);for(const[k,v]of Object.entries(a))n.setAttribute(k,v);p?.append(n);return n;}
 function text(p,x,y,t,size=13,a={}){const n=el('text',{x,y,'font-size':size,fill:'#293c38','font-family':'Arial, sans-serif',...a},p);n.textContent=t;return n;}
@@ -41,14 +41,14 @@ export async function start(){
   text(svg,560,573,'N ↑',13);text(svg,16,653,kind==='direction'?'© Deutscher Wetterdienst · CC BY 4.0 · 26 Messstationen':kind==='quantitative'?'© Statistische Ämter des Bundes und der Länder / Destatis, 2026':'© OpenStreetMap contributors · ODbL · Stand 30.10.2026',12);text(svg,16,671,kind==='direction'?'Momentaufnahme · keine Interpolation · Natural Earth: Public Domain':kind==='quantitative'?'Bevölkerung 31.12.2024 · Gebietsstand 31.03.2026 · Natural Earth':kind==='ordinal'?'Nur Orte mit Zugangsangabe · fehlende Angaben sind keine Verneinung.':'Quellen und Datenhinweise unter der Karte.',11);
   const hues=kind==='ordinal'?['#7b51a5','#e78b36','#328f90','#c34e68']:['#246a7b','#ba633e','#827438','#806180'];
   const shapeSets={geometric:[d3.symbolCircle,d3.symbolSquare,d3.symbolTriangle,d3.symbolDiamond],distinct:[d3.symbolCircle,d3.symbolStar,d3.symbolCross,d3.symbolWye]};
-  function color(p,s){if(s.mode==='value'||(s.combine&&s.mode==='size'))return toneColor(d3,s.valueFamily,s.lightHigh-(s.lightHigh-s.lightLow)*(s.reverseValue?1-norm(p):norm(p)));if(s.mode==='hue'||(s.combine&&s.mode==='form'))return kind==='quantitative'?d3.interpolateRainbow(norm(p)*.9):s.palette==='bright'?d3.schemeTableau10[value(p)]:hues[value(p)];return '#356e74';}
+  function color(p,s){if(s.mode==='value'||(s.combine&&s.mode==='size'))return toneColor(d3,s.valueFamily,s.lightHigh-(s.lightHigh-s.lightLow)*(s.reverseValue?1-norm(p):norm(p)));if(s.mode==='hue'||(s.combine&&s.mode==='form'))return kind==='quantitative'?(s.palette==='bright'?d3.interpolateRainbow(norm(p)*.9):d3.interpolateRgbBasis([...hues,hues[0]])(norm(p))):s.palette==='bright'?d3.schemeTableau10[value(p)]:hues[value(p)];return '#356e74';}
   function shape(p,s){const v=Math.max(0,Math.min(3,Math.floor(norm(p)*3.999)));return s.mode==='form'||(s.combine&&s.mode==='hue')?shapeSets[s.formSet||'geometric'][v]:s.shape==='square'?d3.symbolSquare:d3.symbolCircle;}
   function area(p,s){return (s.mode==='size'||(s.combine&&s.mode==='value'))?(kind==='quantitative'?symbolArea(p.population,max,s.size):Math.PI*s.size*s.size*(.18+.82*norm(p))):Math.PI*s.size*s.size;}
   function pattern(p,s,index){const q=pats[index],gap=kind==='nominal'?s.texture:Math.max(3,s.texture*(1-.6*norm(p)));q.setAttribute('width',gap);q.setAttribute('height',gap);q.replaceChildren();el('rect',{width:gap,height:gap,fill:'#ffffff'},q);const stroke='#356e74';if(kind==='nominal'&&value(p)===1)el('circle',{cx:gap/2,cy:gap/2,r:gap*.21,fill:stroke},q);else el('path',{d:kind==='nominal'&&value(p)===2?`M0,${gap/2}H${gap}M${gap/2},0V${gap}`:kind==='nominal'&&value(p)===3?`M0,0L${gap},${gap}`:`M0,${gap/2}H${gap}`,stroke,'stroke-width':gap*.23},q);return`url(#${id}-pat${index})`;}
   function drawPoint(n,p,s,index,x,y){n.setAttribute('d',s.mode==='orientation'?arrowPath(area(p,s)):d3.symbol().type(shape(p,s)).size(area(p,s))());n.setAttribute('transform',`translate(${x},${y}) rotate(${s.mode==='orientation'?s.angle+norm(p)*180:0})`);n.setAttribute('fill',s.mode==='texture'?pattern(p,s,index):color(p,s));n.setAttribute('stroke','#ffffff');n.setAttribute('stroke-width',1);}
   function windPoint(n,p,s,x,y,index=0){
    const lo=s.observedRange?Math.min(...points.map(p=>p.from_deg)):0,hi=s.observedRange?Math.max(...points.map(p=>p.from_deg)):360;const sizeT=Math.max(0,Math.min(1,(p.from_deg-lo)/Math.max(1,hi-lo)));
-   const sector=Math.floor(((p.from_deg+22.5)%360)/45),t=(p.from_deg%360)/360,oriented=s.mode==='orientation',length=(s.speed?s.speedSize:s.size)*(s.speed?Math.sqrt(p.speed/max):1),h=length/2;
+   const sector=Math.floor(((p.from_deg+22.5)%360)/45),t=sector/7,oriented=s.mode==='orientation',length=(s.speed?s.speedSize:s.size)*(s.speed?Math.sqrt(p.speed/max):1),h=length/2;
    let d,fill=s.ink,stroke='#ffffff',width=1;
    if(oriented){d=s.symbol==='circle'?d3.symbol().type(d3.symbolCircle).size(Math.PI*(length*.35)**2)():s.symbol==='axis'?`M0,${h}V${-h}`:arrowPath(length*length*.418);if(s.symbol==='axis'){fill='none';stroke=s.ink;width=2.7;}}
    else if(s.mode==='form'||s.windExtra==='form'){const shapes=[d3.symbolCircle,d3.symbolSquare,d3.symbolTriangle,d3.symbolDiamond,d3.symbolStar,d3.symbolCross,d3.symbolWye];const set=s.mode==='form'?s.windForms:s.extraForms,ix=set==='distinct'?(sector+3)%8:sector,scale=s.mode==='size'?s.minRatio+(1-s.minRatio)*sizeT:1,A=Math.PI*(s.size*.35*scale)**2;d=ix===7?arrowPath(A):d3.symbol().type(shapes[ix]).size(A)();}
@@ -64,7 +64,7 @@ export async function start(){
      if(s.speed){[Math.min(...points.map(p=>p.speed)),max].forEach((f,i)=>{const n=el('path',{},legend);windPoint(n,{from_deg:180,speed:f},s,40+i*260,605,points.length+i);text(legend,80+i*260,609,`${f.toFixed(1)} m/s`,13);});text(legend,16,639,'Zusatzvariable Größe: Pfeilfläche proportional zur Windgeschwindigkeit.',11);}
      else{text(legend,16,606,s.encode?(s.symbol==='arrow'?'Pfeilspitze = Zielrichtung der Luft':'Ausrichtung = DWD-Windherkunft + 180°'):'Einheitliche Ausrichtung',13);text(legend,16,629,'Windgeschwindigkeit: Tooltip und Datentabelle',11);}
     }else{
-     text(legend,16,578,'DWD-Windherkunft · Richtungscodes',13,{'font-weight':'bold'});
+     text(legend,16,578,s.mode==='size'?'DWD-Windherkunft · Winkelwerte':'DWD-Windherkunft · 8 Windsektoren',13,{'font-weight':'bold'});
      const directions=s.mode==='size'&&s.observedRange?Array.from({length:5},(_,i)=>Math.min(...points.map(p=>p.from_deg))+(Math.max(...points.map(p=>p.from_deg))-Math.min(...points.map(p=>p.from_deg)))*i/4):[0,45,90,135,180,225,270,315];
      directions.forEach((deg,i)=>{const lab=['N','NO','O','SO','S','SW','W','NW'][Math.floor(((deg+22.5)%360)/45)];const n=el('path',{},legend);windPoint(n,{from_deg:deg,speed:max},s,34+i*(490/Math.max(1,directions.length-1)),602,points.length+i);text(legend,34+i*(490/Math.max(1,directions.length-1)),630,`${lab} ${Math.round(deg)}°`,11,{'text-anchor':'middle'});});
     }
@@ -90,7 +90,7 @@ export async function start(){
    const extra={hue:'form',form:'hue',size:'value',value:'size'}[state.mode],titles={form:'Form',hue:'Farbton',value:'Helligkeit / Tonwert',size:'Größe'};document.getElementById('combo-details').hidden=!state.combine;document.getElementById('combo-title').textContent=state.combine?'Zusatzvariable: '+titles[extra]:'';
    for(const k of ['form','hue','value','size'])document.getElementById('combo-'+k).hidden=!state.combine||extra!==k;
    document.getElementById('common-size').hidden=state.combine&&state.mode==='value';
-   for(const n of document.querySelectorAll('[data-modes]'))n.hidden=(kind==='quantitative'&&n.querySelector('h3')?.textContent==='Farbtöne')||!n.dataset.modes.split(' ').includes(state.mode);
+   for(const n of document.querySelectorAll('[data-modes]'))n.hidden=!n.dataset.modes.split(' ').includes(state.mode);
   }
   right.update(state);
   for(const n of document.querySelectorAll('[data-key]')){if(n.type==='checkbox')n.checked=!!state[n.dataset.key];else n.value=state[n.dataset.key];const o=document.getElementById(n.id+'-value');if(o)o.value=n.value;}

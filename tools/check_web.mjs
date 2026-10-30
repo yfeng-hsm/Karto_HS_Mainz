@@ -25,6 +25,13 @@ for(const[kind,file]of[['nominal','bertin'],['ordinal','ordinal'],['quantitative
   assert.equal(actualSymbols().length,26);await change('mode','size');await change('size',12);const small=actualSymbols();await change('size',44,'change');const big=actualSymbols();assert.equal(big.filter((p,i)=>p.d!==small[i].d).length,26,'Wind map symbols must resize, not just the legend');
   await change('mode','value');await change('valueFamily','blue');const blue=actualSymbols();await change('valueFamily','orange','change');assert.equal(actualSymbols().filter((p,i)=>p.fill!==blue[i].fill).length,26,'Wind map symbols must recolor, not just the legend');
   const beforeReverse=actualSymbols();await change('reverseValue',true);assert(actualSymbols().some((p,i)=>p.fill!==beforeReverse[i].fill));
+  // Every station's sector must exactly match its legend swatch (including texture geometry).
+  for(const mode of ['value','texture']){
+   await change('mode',mode);
+   const map=[...app.right.svg.querySelectorAll('.data-symbol')],legend=[...app.right.svg.querySelectorAll('.map-legend > path')];assert.equal(legend.length,8);
+   wind.stations.forEach((p,i)=>{const j=Math.floor(((p.from_deg+22.5)%360)/45);if(mode==='value')assert.equal(map[i].getAttribute('fill'),legend[j].getAttribute('fill'));else{const pattern=n=>app.right.svg.querySelector(n.getAttribute('fill').slice(4,-1));const a=pattern(map[i]),b=pattern(legend[j]);assert.equal(a.getAttribute('width'),b.getAttribute('width'));assert.equal(a.innerHTML,b.innerHTML);}});
+   await change('texture',10);await change('reverseValue',false);
+  }
   await change('mode','orientation');await change('ink','#246e59');assert(actualSymbols().every(p=>p.fill==='#246e59'));
   await change('windExtra','hue');assert.equal(w.document.getElementById('wind-extra-hue').hidden,false);assert(new Set(actualSymbols().map(p=>p.fill)).size>1);const comboHue=actualSymbols();await change('extraPalette','muted');assert(actualSymbols().some((p,i)=>p.fill!==comboHue[i].fill));assert.equal(w.document.getElementById('speed').disabled,true);
   await change('mode','size');const angleMarks=actualSymbols();const minStation=wind.stations.findIndex(p=>p.from_deg===240),maxStation=wind.stations.findIndex(p=>p.from_deg===350);assert.notEqual(angleMarks[minStation].d,angleMarks[maxStation].d);await change('observedRange',false);assert.notEqual(actualSymbols()[minStation].d,angleMarks[minStation].d);await change('observedRange',true);
@@ -37,10 +44,13 @@ for(const[kind,file]of[['nominal','bertin'],['ordinal','ordinal'],['quantitative
   const prior=app.right.svg.outerHTML;await change(kind==='nominal'?'secondary-formSet':'secondary-valueFamily',kind==='nominal'?'distinct':'orange');assert.notEqual(app.right.svg.outerHTML,prior);
   await change('mode','value');await change('valueFamily','purple');const toneBefore=actualSymbols();await change('reverseValue',true);assert(actualSymbols().some((p,i)=>p.fill!==toneBefore[i].fill));for(const family of ['gray','blue','green','orange','purple']){const cols=[25,55,83].map(L=>w.d3.lab(toneColor(w.d3,family,L)).l);assert(cols[0]<cols[1]&&cols[1]<cols[2]);}
  }
+ if(kind!=='color'){
+  await change('mode','hue');const key=kind==='direction'?'windPalette':'palette';const label=w.document.querySelector(`label[for="${key}"]`);assert.equal(label.textContent,'Farbserie');const previous=actualSymbols();await change(key,kind==='direction'?'muted':'bright');assert(actualSymbols().some((p,i)=>p.fill!==previous[i].fill));
+ }
  if(kind==='quantitative'){
   for(const size of [6,22]){await change('size',size);const boxes=app.right.labelBoxes();assert.equal(boxes.length,20);for(let i=0;i<boxes.length;i++)for(let j=0;j<i;j++){const a=boxes[i],b=boxes[j];assert(!(a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y),'City labels overlap');}}
  }
- if(kind==='direction'){await change('speed',true);assert.equal(w.document.getElementById('wind-combo-details').hidden,false);const before=app.right.svg.outerHTML;await change('speedSize',50);assert.notEqual(app.right.svg.outerHTML,before);}
+ if(kind==='direction'){await change('mode','orientation');await change('speed',true);assert.equal(w.document.getElementById('wind-combo-details').hidden,false);const before=app.right.svg.outerHTML;await change('speedSize',50);assert.notEqual(app.right.svg.outerHTML,before);}
  const tasks=w.document.querySelector('.task-hover');tasks.dispatchEvent(new w.Event('mouseenter'));assert(tasks.classList.contains('is-open'));assert.equal(tasks.querySelector('.task-popup').style.width,'340px');assert(w.document.querySelector('.title-line').contains(tasks));tasks.dispatchEvent(new w.Event('mouseleave'));await new Promise(r=>setTimeout(r,180));assert(!tasks.classList.contains('is-open'));assert(!w.document.body.textContent.includes('Vorschau aktuell'));
  if(process.env.KARTO_PREVIEW){if(kind==='nominal')await change('mode','hue');if(kind==='ordinal')await change('mode','value');if(kind==='quantitative')await change('mode','size');if(kind==='direction')await change('mode','orientation');fs.writeFileSync('/tmp/karto-'+kind+'.svg',app.right.svg.outerHTML);}
  assert.equal(app.left.svg.outerHTML,left);assert.notEqual(app.right.svg.outerHTML,right);assert(!app.right.svg.outerHTML.includes('NaN'));assert(!w.document.body.textContent.includes('Hinweis zur Eignung'));assert(!app.right.svg.outerHTML.includes('#efc54a'));assert.equal(w.document.body.classList.contains('is-loading'),false);w.document.getElementById('reset').click();assert.equal(app.right.svg.outerHTML,right);assert(w.document.querySelector('.lab-stage').firstElementChild.classList.contains('workspace'));assert.deepEqual(errors,[]);console.log(kind,': rendering, inputs, fixed original and reset OK');w.close();
