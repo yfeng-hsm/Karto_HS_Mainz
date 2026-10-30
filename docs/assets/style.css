@@ -26,3 +26,24 @@
 }
 @media(min-width:1250px) and (min-height:620px){.compact-lab .lab-stage{grid-template-columns:230px minmax(0,1fr)}.compact-lab .controls-panel{padding:13px}.compact-lab select{font-size:11px}}
 @media print{body.compact-lab{height:auto;overflow:visible}.compact-lab .lab-stage{display:block}.compact-lab main{display:block}.task-details,.help-details{display:none}.compact-lab .workspace{display:block}.compact-lab .map-svg{height:auto;max-height:90vh}}
+
+/* Maps first; controls on the right. Give the actual geography more room. */
+@media(min-width:1000px) and (min-height:620px){
+ .compact-lab .lab-stage{grid-template-columns:minmax(0,1fr) 212px;gap:8px}
+ .compact-lab main{padding:6px 10px 5px}.compact-lab .nav{padding:4px 10px}
+ .compact-lab .eyebrow{display:none}.compact-lab .hero h1{font-size:21px;margin:0 0 2px}.compact-lab .hero p{font-size:11px}
+ .compact-lab .task-details{margin:5px 0}.compact-lab .task-details summary{padding:4px 9px;font-size:11px}
+ .compact-lab .workspace{gap:8px}.compact-lab .map-toolbar{min-height:34px;padding:4px 8px}.compact-lab .map-label span{display:none}
+ .compact-lab .controls-panel{padding:10px}.compact-lab .help-details{margin-top:4px}.compact-lab .help-details summary{padding:2px 8px}
+}
+@media(min-width:1000px) and (min-height:620px){
+ .compact-lab .controls,.compact-lab .color-controls{grid-template-columns:1fr;gap:10px}
+ .compact-lab .control-group{padding-bottom:9px;border-bottom:1px solid #ece9df}
+ .compact-lab .control-group h3{font-size:12px;margin:0 0 3px}
+ .compact-lab .control-group label{font-size:11px;margin:3px 0 2px}
+ .compact-lab .control-group .range-label{display:flex;justify-content:space-between}
+ .compact-lab .control-group .check{font-size:11px;margin-top:5px}
+ .compact-lab select{font-size:11px;height:27px;padding:2px 6px}
+ .compact-lab .micro{font-size:10px;line-height:1.35}
+ .compact-lab .context-controls{font-size:11px}
+}
