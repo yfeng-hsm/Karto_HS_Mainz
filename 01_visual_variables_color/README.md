@@ -1,10 +1,14 @@
-# Übung 01 · Visuelle Variablen und Farbe
+# Übung 01 · Eine Karte besser machen
 
-45 Minuten, zwei Aufgaben. Start: [Google Colab](https://colab.research.google.com/github/yfeng-hsm/Karto_HS_Mainz/blob/main/01_visual_variables_color/01_Visuelle_Variablen_und_Farbe.ipynb).
+**Version 2 · Diagnose → Redesign → Begründung · 45 Minuten**
 
-1. Installation und beide Bedienfelder durch „Alle ausführen“ starten (5 Min.).
-2. Bertins sechs Variablen erkunden und A/B vergleichen (20 Min.).
-3. Farben und Klassifikation untersuchen, eine Magazin-Karte gestalten (18 Min.).
-4. Dem Dozenten zeigen und begründen (2 Min.).
+[In Google Colab öffnen](https://colab.research.google.com/github/yfeng-hsm/Karto_HS_Mainz/blob/main/01_visual_variables_color/01_Visuelle_Variablen_und_Farbe.ipynb).
 
-`cartography_lab.py` enthält den lesbaren Darstellungscode, `data/` die Daten und Herkunftshinweise. Das Notebook ist unabhängig davon ebenfalls vollständig: Daten und Modul sind komprimiert eingebettet. Die anderen Übungsordner sind nur Platzhalter.
+1. Alle Zellen ausführen (5 Min.).
+2. Drei Ausgangskarten über Einrichtungen vergleichen; eine auswählen und mithilfe von Bertins sechs Variablen verbessern (20 Min.).
+3. Drei Bevölkerungskarten beurteilen; eine durch Farben, Kontrast und Klassifikation verbessern (18 Min.).
+4. Vorher/Nachher zeigen und drei Entscheidungen begründen (2 Min.).
+
+Keine umfangreiche Programmierung, keine Datei-Abgabe. Die Oberfläche bietet Fallauswahl, sechs kompakte Kontrollgruppen, Vorher-/Nachher-Vergleich und freiwilligen SVG-/PNG-Export. Der frühere lange Hinweisbalken und die Mehrfachauswahl der Einrichtungen wurden entfernt. Vier Einrichtungstypen bleiben als vergleichbare Aufgabe fest eingestellt.
+
+Die Beispiele einer Überarbeitung in `preview/` illustrieren die grafische Qualität, sind keine einzige verbindliche Musterlösung. Code und Daten sind im Notebook eingebettet; nach Änderungen `python tools/build_notebook.py` ausführen.

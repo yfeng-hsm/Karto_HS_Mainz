@@ -30,3 +30,6 @@ https://opendatacommons.org/licenses/odbl/1-0/
 Bearbeitung: räumliche Auswahl, Kategorienbeschriftung, Flächenausschnitt, repräsentative Punkte und Nachbarschaftszählung. Bei Veröffentlichung der Daten ODbL-Bedingungen beachten; Attribution auf Karten beibehalten.
 
 `metadata_osm.json` enthält Objektzahlen und Datenzeitstempel. Quelle: https://download.bbbike.org/osm/bbbike/Mainz/Mainz.osm.pbf (regionaler OSM-Extrakt von BBBike; siehe Zeitstempel in metadata.json). Der regionale BBBike-Download wurde verwendet, da der Online-Abfrage-Endpunkt beim Abruf nicht erreichbar war.
+
+## Zusätzlicher Kartenkontext (Version 2)
+`context.geojson`: Rhein/Main-Flächen und Hauptstraßen (primary, secondary, tertiary), aus demselben BBBike-PBF mit Stand 24.10.2026. Räumlich auf den Mainzer Umgebungsrahmen beschränkt. Ausschließlich zur Orientierung, keine vollständige Straßen- oder Gewässerkarte. © OpenStreetMap contributors · ODbL.
