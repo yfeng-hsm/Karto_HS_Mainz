@@ -1,4 +1,4 @@
-import {setupLayout} from './ui.mjs?v=8';
+import {setupLayout,drawLocator} from './ui.mjs?v=9';
 import {classify,BERTIN_BAD,COLOR_BAD,categorySize,categoryLight} from './core.mjs?v=5';
 const NS='http://www.w3.org/2000/svg';
 function el(tag,attrs={},parent){const n=document.createElementNS(NS,tag);for(const[k,v]of Object.entries(attrs))n.setAttribute(k,v);if(parent)parent.append(n);return n;}
@@ -11,9 +11,9 @@ export async function start(){
  const bad=kind==='bertin'?BERTIN_BAD:COLOR_BAD,state={...bad},values=data.population.map(d=>d.value);
  function build(id){
   const svg=document.getElementById(id),defs=el('defs',{},svg);el('rect',{width:600,height:680,fill:'#ffffff'},svg);
-txt(svg,16,19,'MAINZ  /  KARTOGRAPHISCHES LABOR',10,{'font-weight':'bold','letter-spacing':1});
-  txt(svg,16,48,kind==='bertin'?'Einrichtungen im Stadtraum':'Wie viele Menschen wohnen hier?',21,{'font-family':'Arial, sans-serif','font-weight':'bold'});
-  const subtitle=txt(svg,16,70,kind==='bertin'?'Vier Einrichtungstypen · Innenstadt und Umgebung':'Bevölkerung je 100 × 100 m · Zensus 2022',11);
+
+  txt(svg,16,37,kind==='bertin'?'Einrichtungen im Stadtraum':'Wie viele Menschen wohnen hier?',21,{'font-family':'Arial, sans-serif','font-weight':'bold'});
+  const subtitle=txt(svg,16,60,kind==='bertin'?'Vier Einrichtungstypen · Innenstadt und Umgebung':'Bevölkerung je 100 × 100 m · Zensus 2022',11);
   const view=data.views[kind==='bertin'?'bertin':'color'];const projection=d3.geoIdentity().reflectY(true).fitExtent([[16,77],[584,574]],{type:'LineString',coordinates:[[view[0],view[2]],[view[1],view[3]]]});const path=d3.geoPath(projection);
   const clip=el('clipPath',{id:id+'-clip'},defs);el('rect',{x:16,y:77,width:568,height:497},clip);
   const g=el('g',{'clip-path':`url(#${id}-clip)`},svg);el('rect',{x:16,y:77,width:568,height:497,fill:'#f1f0e8'},g);
@@ -25,7 +25,7 @@ txt(svg,16,19,'MAINZ  /  KARTOGRAPHISCHES LABOR',10,{'font-weight':'bold','lette
   if(kind==='bertin')nodes=data.pois.map(p=>{const n=el('path',{},marks);el('title',{},n).textContent=p.name+' · '+types[p.category];return n;});
   else nodes=data.population.map(p=>{const n=el('path',{d:path(p.geometry),'fill-rule':'evenodd'},marks);el('title',{},n).textContent=p.value+' Einwohner · '+p.id;return n;});
   data.labels.forEach(l=>{const[x,y]=projection([l.x,l.y]);txt(labelGroup,x,y,l.name,12,{'letter-spacing':1,'paint-order':'stroke',stroke:'#ffffff','stroke-width':2,'text-anchor':'middle'});});
-  el('rect',{x:495,y:81,width:85,height:109,fill:'#ffffff','fill-opacity':.94,rx:4},svg);const gp=d3.geoIdentity().reflectY(true).fitExtent([[508,103],[571,174]],data.germany);el('path',{d:d3.geoPath(gp)(data.germany),fill:'#e3e3d9',stroke:'#a6b2a8','stroke-width':.7},svg);const[dx,dy]=gp(data.mainz);el('circle',{cx:dx,cy:dy,r:3,fill:'#c75538',stroke:'white'},svg);txt(svg,dx+4,dy+3,'Mainz',11);txt(svg,502,94,'DEUTSCHLAND',10,{'font-weight':'bold','letter-spacing':1});
+  drawLocator(d3,svg,data);
   const legend=el('g',{},svg),stats=el('g',{},svg);
   const distance=kind==='bertin'?1000:2000,scale=projection.scale()*distance;el('path',{d:`M16,623v5h${scale}v-5`,stroke:'#293c38',fill:'none'},svg);txt(svg,16,639,(distance/1000)+' km',10);txt(svg,565,637,'N ↑',11);
   txt(svg,16,654,'© OpenStreetMap contributors · Kartenhintergrund vereinfacht',12);txt(svg,16,666,kind==='bertin'?'OSM: 24.10.2026 · Typen, keine Kapazitäten oder Qualitätswerte':'Zensus: 15.05.2022 · Fehlende/unterdrückte Werte sind nicht null',12);

@@ -69,3 +69,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
 .hero h1{margin-bottom:6px}.hero p{line-height:1.5}
 @media(min-width:1000px) and (min-height:620px){.compact-lab .hero h1{margin-bottom:5px}.compact-lab .hero p{line-height:1.5}.compact-lab .task-hover{margin:6px 0}.compact-lab .task-trigger{padding:4px 9px}.compact-lab .task-hover .tasks{max-height:230px}}
 .city-leader{stroke:#839a90;stroke-width:.7;fill:none}
+/* One compact task icon beside the title; no full-width task row. */
+.title-line{display:flex;align-items:center;gap:8px;margin-bottom:5px}.title-line>h1{margin:0!important}
+.title-line .task-hover,.compact-lab .title-line .task-hover{display:inline-flex;flex:0 0 auto;margin:0!important;padding:0;border:0;background:transparent;z-index:40}
+.title-line .task-trigger,.compact-lab .title-line .task-trigger{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;padding:0!important;border:1px solid #97aaa1;border-radius:50%;background:transparent;color:#45675a;font:600 12px/1 Arial,sans-serif;cursor:help}
+.task-hover .task-popup{position:fixed;right:auto;top:auto;left:auto;max-width:calc(100vw - 32px);max-height:min(310px,65vh);border:1px solid var(--line);background:white;box-shadow:0 6px 20px #203a3720;z-index:41}
+.task-hover.is-open .task-popup{display:flex;flex-direction:column}.task-hover .task{padding:9px 12px;grid-template-columns:18px 1fr;gap:7px}.task-hover .task+.task{border-left:0;border-top:1px solid var(--line)}.task-hover .task p{font-size:12px;line-height:1.4;margin:3px 0 0}.task-hover .step{font-size:16px}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline-color:var(--green)}
+.is-loading .controls-panel{visibility:hidden}
