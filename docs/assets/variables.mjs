@@ -1,5 +1,5 @@
-import {setupLayout,exportButtons,drawLocator} from './ui.mjs?v=10';
-import {flowTo,symbolArea,defaultState,placeLabels,toneColor} from './variables-core.mjs?v=10';
+import {setupLayout,exportButtons,drawLocator} from './ui.mjs?v=11';
+import {flowTo,symbolArea,defaultState,placeLabels,toneColor} from './variables-core.mjs?v=11';
 const NS='http://www.w3.org/2000/svg',TYPES=['Schulen','Kindertagesstätten','Bibliotheken','Sportzentren'];
 function el(tag,a={},p){const n=document.createElementNS(NS,tag);for(const[k,v]of Object.entries(a))n.setAttribute(k,v);p?.append(n);return n;}
 function text(p,x,y,t,size=13,a={}){const n=el('text',{x,y,'font-size':size,fill:'#293c38','font-family':'Arial, sans-serif',...a},p);n.textContent=t;return n;}
@@ -47,24 +47,26 @@ export async function start(){
   function pattern(p,s,index){const q=pats[index],gap=kind==='nominal'?s.texture:Math.max(3,s.texture*(1-.6*norm(p)));q.setAttribute('width',gap);q.setAttribute('height',gap);q.replaceChildren();el('rect',{width:gap,height:gap,fill:'#ffffff'},q);const stroke='#356e74';if(kind==='nominal'&&value(p)===1)el('circle',{cx:gap/2,cy:gap/2,r:gap*.21,fill:stroke},q);else el('path',{d:kind==='nominal'&&value(p)===2?`M0,${gap/2}H${gap}M${gap/2},0V${gap}`:kind==='nominal'&&value(p)===3?`M0,0L${gap},${gap}`:`M0,${gap/2}H${gap}`,stroke,'stroke-width':gap*.23},q);return`url(#${id}-pat${index})`;}
   function drawPoint(n,p,s,index,x,y){n.setAttribute('d',s.mode==='orientation'?arrowPath(area(p,s)):d3.symbol().type(shape(p,s)).size(area(p,s))());n.setAttribute('transform',`translate(${x},${y}) rotate(${s.mode==='orientation'?s.angle+norm(p)*180:0})`);n.setAttribute('fill',s.mode==='texture'?pattern(p,s,index):color(p,s));n.setAttribute('stroke','#ffffff');n.setAttribute('stroke-width',1);}
   function windPoint(n,p,s,x,y,index=0){
+   const lo=s.observedRange?Math.min(...points.map(p=>p.from_deg)):0,hi=s.observedRange?Math.max(...points.map(p=>p.from_deg)):360;const sizeT=Math.max(0,Math.min(1,(p.from_deg-lo)/Math.max(1,hi-lo)));
    const sector=Math.floor(((p.from_deg+22.5)%360)/45),t=(p.from_deg%360)/360,oriented=s.mode==='orientation',length=(s.speed?s.speedSize:s.size)*(s.speed?Math.sqrt(p.speed/max):1),h=length/2;
    let d,fill=s.ink,stroke='#ffffff',width=1;
    if(oriented){d=s.symbol==='circle'?d3.symbol().type(d3.symbolCircle).size(Math.PI*(length*.35)**2)():s.symbol==='axis'?`M0,${h}V${-h}`:arrowPath(length*length*.418);if(s.symbol==='axis'){fill='none';stroke=s.ink;width=2.7;}}
-   else if(s.mode==='form'){const shapes=[d3.symbolCircle,d3.symbolSquare,d3.symbolTriangle,d3.symbolDiamond,d3.symbolStar,d3.symbolCross,d3.symbolWye];d=sector===7?arrowPath(Math.PI*(s.size*.35)**2):d3.symbol().type(shapes[sector]).size(Math.PI*(s.size*.35)**2)();}
-   else{const r=s.size*.35*(s.mode==='size'?Math.sqrt(.1+.9*t):1);d=d3.symbol().type(d3.symbolCircle).size(Math.PI*r*r)();}
-   if(s.mode==='hue')fill=d3.schemeTableau10[sector];if(s.mode==='value')fill=toneColor(d3,s.valueFamily,s.lightHigh-(s.lightHigh-s.lightLow)*(s.reverseValue?1-t:t));
+   else if(s.mode==='form'||s.windExtra==='form'){const shapes=[d3.symbolCircle,d3.symbolSquare,d3.symbolTriangle,d3.symbolDiamond,d3.symbolStar,d3.symbolCross,d3.symbolWye];const set=s.mode==='form'?s.windForms:s.extraForms,ix=set==='distinct'?(sector+3)%8:sector,scale=s.mode==='size'?s.minRatio+(1-s.minRatio)*sizeT:1,A=Math.PI*(s.size*.35*scale)**2;d=ix===7?arrowPath(A):d3.symbol().type(shapes[ix]).size(A)();}
+   else{const r=s.size*.35*(s.mode==='size'?(s.minRatio+(1-s.minRatio)*sizeT):1);d=d3.symbol().type(d3.symbolCircle).size(Math.PI*r*r)();}
+   if(s.mode==='hue'||s.windExtra==='hue'){const pal=s.mode==='hue'?s.windPalette:s.extraPalette;fill=(pal==='muted'?['#486c83','#ae7041','#9f5354','#61928c','#67854a','#b29a42','#896585','#b97c86']:d3.schemeTableau10)[sector];}if(s.mode==='value')fill=toneColor(d3,s.valueFamily,s.lightHigh-(s.lightHigh-s.lightLow)*(s.reverseValue?1-t:t));
    if(s.mode==='texture'){const q=pats[index],gap=Math.max(3,s.texture*(1-.6*t));q.replaceChildren();q.setAttribute('width',gap);q.setAttribute('height',gap);el('rect',{width:gap,height:gap,fill:'white'},q);el('path',{d:`M0,${gap/2}H${gap}`,stroke:s.ink,'stroke-width':gap*.23},q);fill=`url(#${id}-pat${index})`;}
    n.setAttribute('d',d);n.setAttribute('transform',`translate(${x},${y}) rotate(${oriented&&s.encode?flowTo(p.from_deg):0})`);n.setAttribute('fill',fill);n.setAttribute('stroke',stroke);n.setAttribute('stroke-width',width);n.setAttribute('stroke-linecap','round');n.setAttribute('stroke-linejoin','round');
   }
   function update(s){if(s.mode!=='texture')pats.forEach(p=>{p.replaceChildren();p.setAttribute('width',8);p.setAttribute('height',8);});names.setAttribute('display',s.names?'':'none');if(kind==='quantitative')layoutCityNames(s);nodes.forEach((n,i)=>{const p=points[i],[x,y]=projection(regional?[p.lon,p.lat]:[p.x,p.y]);if(kind==='direction')windPoint(n,p,s,x,y,i);else drawPoint(n,p,s,i,x,y);});legend.replaceChildren();
    if(kind==='direction'){
-    if(s.mode==='orientation'){
+    if(s.mode==='orientation'&&s.windExtra==='none'){
      text(legend,16,578,'DWD: Windherkunft · Rotation zeigt hier die Zielrichtung der Luft',12,{'font-weight':'bold'});
      if(s.speed){[Math.min(...points.map(p=>p.speed)),max].forEach((f,i)=>{const n=el('path',{},legend);windPoint(n,{from_deg:180,speed:f},s,40+i*260,605,points.length+i);text(legend,80+i*260,609,`${f.toFixed(1)} m/s`,13);});text(legend,16,639,'Zusatzvariable Größe: Pfeilfläche proportional zur Windgeschwindigkeit.',11);}
      else{text(legend,16,606,s.encode?(s.symbol==='arrow'?'Pfeilspitze = Zielrichtung der Luft':'Ausrichtung = DWD-Windherkunft + 180°'):'Einheitliche Ausrichtung',13);text(legend,16,629,'Windgeschwindigkeit: Tooltip und Datentabelle',11);}
     }else{
      text(legend,16,578,'DWD-Windherkunft · Richtungscodes',13,{'font-weight':'bold'});
-     ['N','NO','O','SO','S','SW','W','NW'].forEach((lab,i)=>{const n=el('path',{},legend);windPoint(n,{from_deg:i*45||360,speed:max},s,34+i*70,602,points.length+i);text(legend,34+i*70,630,`${lab} ${i*45}°`,11,{'text-anchor':'middle'});});
+     const directions=s.mode==='size'&&s.observedRange?Array.from({length:5},(_,i)=>Math.min(...points.map(p=>p.from_deg))+(Math.max(...points.map(p=>p.from_deg))-Math.min(...points.map(p=>p.from_deg)))*i/4):[0,45,90,135,180,225,270,315];
+     directions.forEach((deg,i)=>{const lab=['N','NO','O','SO','S','SW','W','NW'][Math.floor(((deg+22.5)%360)/45)];const n=el('path',{},legend);windPoint(n,{from_deg:deg,speed:max},s,34+i*(490/Math.max(1,directions.length-1)),602,points.length+i);text(legend,34+i*(490/Math.max(1,directions.length-1)),630,`${lab} ${Math.round(deg)}°`,11,{'text-anchor':'middle'});});
     }
    }else{
     text(legend,16,577,kind==='nominal'?'Einrichtungstyp':kind==='ordinal'?'Rollstuhlzugang laut OSM':'Einwohner je Gemeinde',13,{'font-weight':'bold'});
@@ -78,7 +80,10 @@ export async function start(){
  let pending=false;
  function render(){pending=false;
   if(kind==='direction'){
-   const available=state.mode==='orientation'&&state.symbol==='arrow';if(!available)state.speed=false;document.getElementById('speed').disabled=!available;document.getElementById('wind-combo-details').hidden=!state.speed;document.getElementById('common-size').hidden=state.speed;
+   const extraSelect=document.getElementById('windExtra');for(const option of extraSelect.options)option.disabled=option.value==='hue'?['hue','value','texture'].includes(state.mode):option.value==='form'?['form','orientation'].includes(state.mode):false;
+   if([...extraSelect.options].some(o=>o.value===state.windExtra&&o.disabled))state.windExtra='none';
+   document.getElementById('wind-extra-hue').hidden=state.windExtra!=='hue';document.getElementById('wind-extra-form').hidden=state.windExtra!=='form';
+   const available=state.mode==='orientation'&&state.symbol==='arrow'&&state.windExtra==='none';if(!available)state.speed=false;document.getElementById('speed').disabled=!available;document.getElementById('wind-combo-details').hidden=!state.speed;document.getElementById('common-size').hidden=state.speed;
    document.querySelectorAll('[data-wind-modes]').forEach(n=>n.hidden=!n.dataset.windModes.split(' ').includes(state.mode));
   }else{
    const allowed=kind==='nominal'?['hue','form']:['size','value'];if(!allowed.includes(state.mode))state.combine=false;document.getElementById('combine').disabled=!allowed.includes(state.mode);
@@ -90,7 +95,7 @@ export async function start(){
   right.update(state);
   for(const n of document.querySelectorAll('[data-key]')){if(n.type==='checkbox')n.checked=!!state[n.dataset.key];else n.value=state[n.dataset.key];const o=document.getElementById(n.id+'-value');if(o)o.value=n.value;}
  }
- const change=n=>{state[n.dataset.key]=n.type==='checkbox'?n.checked:n.type==='range'?+n.value:n.value;if(n.dataset.key==='mode'){state.combine=false;if(kind==='direction'){state.speed=false;if(state.mode==='orientation'){state.symbol='arrow';state.encode=true;}}}if(n.dataset.key==='symbol'&&state.symbol!=='arrow')state.speed=false;if(!pending){pending=true;requestAnimationFrame(render);}};
+ const change=n=>{state[n.dataset.key]=n.type==='checkbox'?n.checked:n.type==='range'?+n.value:n.value;if(n.dataset.key==='mode'){state.combine=false;if(kind==='direction'){state.speed=false;state.windExtra='none';if(state.mode==='orientation'){state.symbol='arrow';state.encode=true;}}}if(n.dataset.key==='symbol'&&state.symbol!=='arrow')state.speed=false;if(!pending){pending=true;requestAnimationFrame(render);}};
  document.querySelectorAll('[data-key]').forEach(n=>{n.addEventListener('input',()=>change(n));n.addEventListener('change',()=>change(n));});document.getElementById('reset').onclick=()=>{Object.assign(state,bad);render();};exportButtons(right.svg,'Mainz_'+kind);render();document.body.classList.remove('is-loading');document.getElementById('load-message').hidden=true;
  if(kind!=='nominal'){const table=document.querySelector('.data-table'),headers=kind==='direction'?['Station','F (m/s)','Wind aus (°)','Strömung nach (°)']:kind==='quantitative'?['Stadt','Einwohner','Stichtag']:['Ort','Rollstuhlzugang','OSM-ID'];const summary=document.createElement('summary');summary.textContent='Verwendete Daten ansehen';const t=document.createElement('table'),head=document.createElement('thead'),hr=document.createElement('tr');for(const v of headers){const th=document.createElement('th');th.textContent=v;hr.append(th);}head.append(hr);t.append(head);const body=document.createElement('tbody');for(const p of points){const tr=document.createElement('tr'),values=kind==='direction'?[p.name,p.speed,p.from_deg,p.to_deg]:kind==='quantitative'?[p.name,num(p.population),'31.12.2024']:[p.name,labels[p.level],p.id];for(const v of values){const td=document.createElement('td');td.textContent=v;tr.append(td);}body.append(tr);}t.append(body);table.replaceChildren(summary,t);}
 

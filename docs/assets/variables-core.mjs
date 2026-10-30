@@ -2,7 +2,7 @@ export const MODES=['hue','form','size','value','texture','orientation'];
 export function flowTo(from){return (from+180)%360;}
 export function speedLevel(speed){return [2,4,6].filter(t=>speed>=t).length;}
 export function symbolArea(value,max,maxRadius){return Math.PI*maxRadius**2*value/max;}
-export const defaultState=kind=>kind==='direction'?{mode:'hue',symbol:'circle',encode:false,size:26,names:true,speed:false,speedSize:38,valueFamily:'blue',reverseValue:false,lightLow:25,lightHigh:83,texture:6,ink:'#285c68'}:{mode:kind==='nominal'?'size':kind==='ordinal'?'form':'hue',size:14,palette:'editorial',shape:'circle',formSet:'geometric',valueFamily:'blue',reverseValue:false,lightLow:25,lightHigh:83,texture:6,angle:0,combine:false,names:true};
+export const defaultState=kind=>kind==='direction'?{windExtra:'none',windPalette:'tableau',extraPalette:'tableau',windForms:'geometric',extraForms:'geometric',observedRange:true,minRatio:.2,mode:'hue',symbol:'circle',encode:false,size:26,names:true,speed:false,speedSize:38,valueFamily:'blue',reverseValue:false,lightLow:25,lightHigh:83,texture:6,ink:'#285c68'}:{mode:kind==='nominal'?'size':kind==='ordinal'?'form':'hue',size:14,palette:'editorial',shape:'circle',formSet:'geometric',valueFamily:'blue',reverseValue:false,lightLow:25,lightHigh:83,texture:6,angle:0,combine:false,names:true};
 // Deterministic, non-overlapping label boxes; leader lines can connect distant labels.
 export function placeLabels(items,obstacles,reserved,bounds){
  const boxes=[],result=[],hit=(a,b)=>a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;

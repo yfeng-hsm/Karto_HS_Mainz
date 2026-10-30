@@ -26,6 +26,11 @@ for(const[kind,file]of[['nominal','bertin'],['ordinal','ordinal'],['quantitative
   await change('mode','value');await change('valueFamily','blue');const blue=actualSymbols();await change('valueFamily','orange','change');assert.equal(actualSymbols().filter((p,i)=>p.fill!==blue[i].fill).length,26,'Wind map symbols must recolor, not just the legend');
   const beforeReverse=actualSymbols();await change('reverseValue',true);assert(actualSymbols().some((p,i)=>p.fill!==beforeReverse[i].fill));
   await change('mode','orientation');await change('ink','#246e59');assert(actualSymbols().every(p=>p.fill==='#246e59'));
+  await change('windExtra','hue');assert.equal(w.document.getElementById('wind-extra-hue').hidden,false);assert(new Set(actualSymbols().map(p=>p.fill)).size>1);const comboHue=actualSymbols();await change('extraPalette','muted');assert(actualSymbols().some((p,i)=>p.fill!==comboHue[i].fill));assert.equal(w.document.getElementById('speed').disabled,true);
+  await change('mode','size');const angleMarks=actualSymbols();const minStation=wind.stations.findIndex(p=>p.from_deg===240),maxStation=wind.stations.findIndex(p=>p.from_deg===350);assert.notEqual(angleMarks[minStation].d,angleMarks[maxStation].d);await change('observedRange',false);assert.notEqual(actualSymbols()[minStation].d,angleMarks[minStation].d);await change('observedRange',true);
+  await change('windExtra','form');assert.equal(w.document.getElementById('wind-extra-form').hidden,false);const shapeBefore=actualSymbols();await change('extraForms','distinct');assert(actualSymbols().every((p,i)=>p.d!==shapeBefore[i].d));await change('mode','hue');assert.equal(app.state.windExtra,'none');
+  await change('mode','orientation');
+
  }
  if(kind!=='color'&&kind!=='direction'){
   await change('mode',kind==='nominal'?'hue':'size');await change('combine',true);assert.equal(w.document.getElementById('combo-details').hidden,false);assert(w.document.getElementById('combo-title').textContent.includes(kind==='nominal'?'Form':'Helligkeit'));

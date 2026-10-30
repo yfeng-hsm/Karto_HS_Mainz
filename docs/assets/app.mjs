@@ -1,4 +1,4 @@
-import {setupLayout,drawLocator} from './ui.mjs?v=10';
+import {setupLayout,drawLocator} from './ui.mjs?v=11';
 import {classify,BERTIN_BAD,COLOR_BAD,categorySize,categoryLight} from './core.mjs?v=10';
 const NS='http://www.w3.org/2000/svg';
 function el(tag,attrs={},parent){const n=document.createElementNS(NS,tag);for(const[k,v]of Object.entries(attrs))n.setAttribute(k,v);if(parent)parent.append(n);return n;}
