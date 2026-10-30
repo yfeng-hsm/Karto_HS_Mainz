@@ -65,7 +65,7 @@ export async function start(){
   }return{svg,update};
  }
  const left=build('map-left'),right=build('map-right');left.update(bad);
- let queued=false;function render(){queued=false;right.update(state);document.querySelectorAll('[data-key]').forEach(n=>{if(n.type==='checkbox')n.checked=state[n.dataset.key];else n.value=state[n.dataset.key];const out=document.getElementById(n.id+'-value');if(out)out.value=n.value;});if(kind==='bertin'){document.getElementById('density').disabled=!state.texture;document.getElementById('palette').disabled=state.valueOnly;}document.getElementById('live-state').textContent='● Vorschau aktuell';}
+ let queued=false;function render(){queued=false;right.update(state);document.querySelectorAll('[data-key]').forEach(n=>{if(n.type==='checkbox')n.checked=state[n.dataset.key];else n.value=state[n.dataset.key];const out=document.getElementById(n.id+'-value');if(out)out.value=n.value;});if(kind==='bertin'){document.getElementById('density').disabled=!state.texture;document.getElementById('palette').disabled=state.valueOnly;}if(kind==='color')document.getElementById('contrast').disabled=state.palette==='category';document.getElementById('live-state').textContent='● Vorschau aktuell';}
  document.querySelectorAll('[data-key]').forEach(n=>n.addEventListener('input',()=>{state[n.dataset.key]=n.type==='checkbox'?n.checked:n.type==='range'?+n.value:n.value;if(!queued){queued=true;requestAnimationFrame(render);}}));
  document.getElementById('reset').onclick=()=>{Object.assign(state,bad);render();};
  function download(blob,ext){const a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=`Mainz_${kind}.${ext}`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}

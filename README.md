@@ -5,7 +5,7 @@ Interaktive Webübungen mit offenen Bibliotheken. Ohne Anmeldung, Installation o
 
 | Übung | Thema | Stand |
 |---|---|---|
-| [01](01_visual_variables_color/) | Kartendesigns beurteilen und verbessern · Mainz | Zwei interaktive Webseiten, ca. 45 Minuten |
+| [01](01_visual_variables_color/) | Kartendesigns beurteilen und verbessern · Mainz | Fünf interaktive Fälle |
 | [02](02_map_generalization/) | Map Generalization / Kartengeneralisierung | Ordner vorbereitet |
 | [03](03_map_projection/) | Map Projection / Kartenprojektionen | Ordner vorbereitet |
 | [04](04_3d_geovisualization/) | 3D-Geovisualisierung | Ordner vorbereitet |
