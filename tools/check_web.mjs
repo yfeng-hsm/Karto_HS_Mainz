@@ -15,8 +15,8 @@ for(const[kind,file]of[['nominal','bertin'],['ordinal','ordinal'],['quantitative
   const boundaries=()=>[...app.right.svg.querySelectorAll('.class-boundary')].map(n=>+n.getAttribute('x1'));
   assert.equal(boundaries().length,classify(mainz.population.map(p=>p.value),app.state.method,app.state.classes).bins.length-1);
   const before=boundaries();await change('method','equal');assert.notDeepEqual(boundaries(),before);
-  const histBefore=app.right.svg.querySelector('.histogram').outerHTML;await change('logCounts',true);assert.notEqual(app.right.svg.querySelector('.histogram').outerHTML,histBefore);
-  const cells=()=>[...app.right.svg.querySelectorAll('.population-cell')].map(n=>n.getAttribute('fill'));const linearMap=cells();const linearCuts=boundaries();await change('method','log');assert.notDeepEqual(boundaries(),linearCuts);assert.notDeepEqual(cells(),linearMap);assert(!w.document.getElementById('symbolForm'));const logMap=cells();await change('logCounts',false);assert.deepEqual(cells(),logMap);
+  const histBefore=app.right.svg.querySelector('.histogram').outerHTML;const cutsBeforeAxis=boundaries();await change('logAxis',true);assert(boundaries().every((x,i)=>Math.abs(x-cutsBeforeAxis[i])>1),'Log X axis must move every interior class boundary');assert.notEqual(app.right.svg.querySelector('.histogram').outerHTML,histBefore);
+  const cells=()=>[...app.right.svg.querySelectorAll('.population-cell')].map(n=>n.getAttribute('fill'));const linearMap=cells();const linearCuts=boundaries();await change('method','log');assert.notDeepEqual(boundaries(),linearCuts);assert.notDeepEqual(cells(),linearMap);assert(!w.document.getElementById('symbolForm'));const logMap=cells();await change('logAxis',false);assert.deepEqual(cells(),logMap);
 
  }
  if(kind==='direction'){

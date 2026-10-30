@@ -1,5 +1,5 @@
-import {setupLayout,drawLocator} from './ui.mjs?v=13';
-import {classify,BERTIN_BAD,COLOR_BAD,categorySize,categoryLight} from './core.mjs?v=13';
+import {setupLayout,drawLocator} from './ui.mjs?v=14';
+import {classify,BERTIN_BAD,COLOR_BAD,categorySize,categoryLight} from './core.mjs?v=14';
 const NS='http://www.w3.org/2000/svg';
 function el(tag,attrs={},parent){const n=document.createElementNS(NS,tag);for(const[k,v]of Object.entries(attrs))n.setAttribute(k,v);if(parent)parent.append(n);return n;}
 function txt(parent,x,y,text,size=11,extra={}){const n=el('text',{x,y,'font-size':size,fill:'#293c38','font-family':'Arial, sans-serif',...extra},parent);n.textContent=text;return n;}
@@ -50,16 +50,16 @@ export async function start(){
     if(s.gray)colors=colors.map(v=>{const c=d3.rgb(v),l=Math.round(.2126*c.r+.7152*c.g+.0722*c.b);return `rgb(${l},${l},${l})`;});
     nodes.forEach((n,i)=>{n.setAttribute('class','population-cell');n.setAttribute('fill',colors[c.ids[i]]);n.setAttribute('stroke','#ffffff');n.setAttribute('stroke-width',s.border);});
     // Equal-width bins retain the numerical distribution; class boundaries use the same numeric x-scale.
-    txt(stats,18,483,'VERTEILUNG · Personen je 100 × 100 m',11,{'font-weight':'bold'});
-    txt(stats,580,483,s.logCounts?'Häufigkeit (log₁₀(1+n))':'Häufigkeit (Zellen)',10,{'text-anchor':'end'});
-    const xmin=Math.min(...values),xmax=Math.max(...values),x=d3.scaleLinear().domain([xmin,xmax]).range([42,578]);
-    const hist=d3.bin().domain([xmin,xmax]).thresholds(d3.range(1,33).map(i=>xmin+(xmax-xmin)*i/33))(values);
-    const transform=n=>s.logCounts?Math.log10(1+n):n, ymax=d3.max(hist,b=>transform(b.length));
+    txt(stats,18,483,s.logAxis?'VERTEILUNG · Personen je Zelle · log(1+x)':'VERTEILUNG · Personen je 100 × 100 m',11,{'font-weight':'bold'});
+    txt(stats,580,483,'Häufigkeit (Zellen)',10,{'text-anchor':'end'});
+    const xmin=Math.min(...values),xmax=Math.max(...values),x=(s.logAxis?d3.scaleSymlog().constant(1):d3.scaleLinear()).domain([xmin,xmax]).range([42,578]);
+    const hist=d3.bin().domain([xmin,xmax]).thresholds(d3.range(1,33).map(i=>x.invert(42+(578-42)*i/33)))(values);
+    const transform=n=>n, ymax=d3.max(hist,b=>transform(b.length));
     const y=d3.scaleLinear().domain([0,ymax]).range([553,493]);
     hist.forEach(b=>{const cls=c.bins.findIndex(v=>(b.x0+b.x1)/2<=v);const bar=el('rect',{x:x(b.x0),y:y(transform(b.length)),width:Math.max(.5,x(b.x1)-x(b.x0)-.6),height:553-y(transform(b.length)),fill:colors[Math.max(0,cls)]},stats);el('title',{},bar).textContent=`${Math.ceil(b.x0)}–${Math.floor(b.x1)} Personen: ${b.length} Zellen`;});
     el('path',{d:'M42,493V553H578',stroke:'#7a8983',fill:'none'},stats);
-    [0,ymax].forEach(v=>txt(stats,37,y(v)+3,s.logCounts?v.toFixed(1):Math.round(v),9,{'text-anchor':'end'}));
-    x.ticks(5).forEach(v=>{txt(stats,x(v),567,v,10,{'text-anchor':'middle'});});
+    [0,ymax].forEach(v=>txt(stats,37,y(v)+3,Math.round(v),9,{'text-anchor':'end'}));
+    (s.logAxis?[xmin,10,30,100,300,xmax].filter((v,i,a)=>v>=xmin&&v<=xmax&&a.indexOf(v)===i):x.ticks(5)).forEach(v=>{txt(stats,x(v),567,v,10,{'text-anchor':'middle'});});
     c.bins.slice(0,-1).forEach(v=>{const line=el('line',{'class':'class-boundary',x1:x(v),x2:x(v),y1:490,y2:553,stroke:'#203a37','stroke-width':1.3,'stroke-dasharray':'3 2'},stats);el('title',{},line).textContent=`Klassengrenze: ${Number(v.toFixed(2))}`;});
 
     c.bins.forEach((b,i)=>{const x=18+i*(565/k);el('rect',{x,y:587,width:12,height:12,fill:colors[i]},legend);const low=i?Math.floor(c.bins[i-1])+1:Math.min(...values);txt(legend,x+16,597,`${low}–${Math.floor(b)}`,13);txt(legend,x+16,614,`${c.counts[i]} Zellen`,10,{fill:'#7b817b'});});

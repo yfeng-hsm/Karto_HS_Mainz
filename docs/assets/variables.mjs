@@ -1,5 +1,5 @@
-import {setupLayout,exportButtons,drawLocator} from './ui.mjs?v=13';
-import {flowTo,symbolArea,defaultState,placeLabels,toneColor} from './variables-core.mjs?v=13';
+import {setupLayout,exportButtons,drawLocator} from './ui.mjs?v=14';
+import {flowTo,symbolArea,defaultState,placeLabels,toneColor} from './variables-core.mjs?v=14';
 const NS='http://www.w3.org/2000/svg',TYPES=['Schulen','Kindertagesstätten','Bibliotheken','Sportzentren'];
 function el(tag,a={},p){const n=document.createElementNS(NS,tag);for(const[k,v]of Object.entries(a))n.setAttribute(k,v);p?.append(n);return n;}
 function text(p,x,y,t,size=13,a={}){const n=el('text',{x,y,'font-size':size,fill:'#293c38','font-family':'Arial, sans-serif',...a},p);n.textContent=t;return n;}
